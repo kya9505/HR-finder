@@ -122,7 +122,8 @@ public class StudentManager extends StudentDBIO {
     }
 
     // <T> 타입을 받고, T 타입을 반환하는 제너릭 메소드.
-    // Function<T, R> parser -  입력값을 원하는 타입 T로 편환하는 함숫형 인터페이스
+    // Function<T, R> parser -  입력값을 원하는 타입 T로 편환하는 함숫형 인터페이스.
+    // => Integer::parseInt, String::parseString 등 사용가능하게 함.
     // Predicate<T> validator -  변환된 값이 유효한지 검사하는 함수형 인터페이스
     private <T> T validateInput(String prompt, Function<String, T> parser, Predicate<T> validator, String errorMessage) {
         while(true) {
@@ -130,7 +131,9 @@ public class StudentManager extends StudentDBIO {
 
             String input = scanner.nextLine().trim();
             try {
-                T value = parser.apply(input); // 사용자 입력을  원하는 타입으로 변환.
+                // parser: 메소드참조/람다 표현식 저장하는 변수. 타입을 변환하는 기능가진 함수형 인터페이스 변수.
+                // Function 함수형 인터페이스의 apply() 사용가능. value는 T 타입.
+                T value = parser.apply(input); // Function<String,T> 타입의 parser 사용자 입력을  원하는 타입으로 변환.
                 if(validator.test(value)) { // Predicate 의 test 메소드가 조건을 만족하는지 참거짓으로 반환.
                     return value; // 조건을 만족하면 참 반환.
                 } else {
