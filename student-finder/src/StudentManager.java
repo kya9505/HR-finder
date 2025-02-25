@@ -3,6 +3,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -119,6 +121,26 @@ public class StudentManager extends StudentDBIO {
         }
     }
 
+    // <T> 타입을 받고, T 타입을 반환하는 제너릭 메소드.
+    // Function<T, R> parser -  입력값을 원하는 타입 T로 편환하는 함숫형 인터페이스
+    // Predicate<T> validator -  변환된 값이 유효한지 검사하는 함수형 인터페이스
+    private <T> T validateInput(String prompt, Function<String, T> parser, Predicate<T> validator, String errorMessage) {
+        while(true) {
+            System.out.println(prompt);
+
+            String input = scanner.nextLine().trim();
+            try {
+                T value = parser.apply(input); // 사용자 입력을  원하는 타입으로 변환.
+                if(validator.test(value)) { // Predicate 의 test 메소드가 조건을 만족하는지 참거짓으로 반환.
+                    return value; // 조건을 만족하면 참 반환.
+                } else {
+                    System.out.println(errorMessage); // 만족하지 않으면 에러메시지 반환
+                }
+            } catch (Exception e) {
+                System.out.println("잘못된 입력 형식입니다. ");
+            }
+        }
+    }
     /**
      * 각 과목의 점수를 입력받아 정수 배열로 반환합니다.
      *
