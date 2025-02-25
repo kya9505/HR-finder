@@ -150,7 +150,8 @@ public class StudentManager extends StudentDBIO {
      * @return korean, english, math, science 순서의 점수를 담은 배열
      */
     private int[] readSubjectScores() {
-        int korean = getValidatedInt("korean: ", 0, 100);
+        //int korean = getValidatedInt("korean: ", 0, 100);
+        int korean = validateInput("국어 점수를 입력하세요: ", Integer::parseInt, s-> s>= 0 && s<= 100, "0에서 100까지의 점수를 재입력하세요");
         int english = getValidatedInt("english: ", 0, 100);
         int math = getValidatedInt("math: ", 0, 100);
         int science = getValidatedInt("science: ", 0, 100);
@@ -182,7 +183,9 @@ public class StudentManager extends StudentDBIO {
     public void runMenu1() {
         // menu 1 adds and updates student
         // 학생을 찾아본다.
-        String userSno =  readValidatedString("학번 입력(10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");;
+        //String userSno =  readValidatedString("학번 입력(10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");;
+        String userSno = validateInput("10자리 수의 학번을 입력하세요: ", s -> s, s->s.matches("\\d{10}"), "잘못된 형식입니다. 10자리 수를 재입력하세요.");
+
         Student foundStudent = findStudentInDB(userSno);
         if (foundStudent == null) addStudentInfo(userSno); // 찾은 학생이 없으니 매개변수 받지말고 이미 입력한 학번만 받기.
         else updateStudentInfo(foundStudent, userSno);
@@ -207,7 +210,8 @@ public class StudentManager extends StudentDBIO {
         String userChoice = scanner.nextLine().trim();
 
         if ("1".equals(userChoice)) { // 모든 정보 수정하기.
-            String name = readValidatedString("What is their name? (한, 영): ", NAME_PATTERN, "한, 영문으로 재입력");
+            String name = validateInput("학생의 이름을 입력하세요:  ", s -> s, s->s.matches("^[가-힣]{1,5}$") && s.length() <=5 , "한글 5글자 내로 재입력하세요.");
+
             int[] scores = readSubjectScores(); // get user-input subject scores with a method
             // scores 배열 안에 들러간 4과목의 데이터
             Student student = createStudent(inputSno, name, scores[0], scores[1], scores[2], scores[3]);
