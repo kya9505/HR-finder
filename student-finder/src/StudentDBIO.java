@@ -5,7 +5,7 @@ import java.util.List;
  * StudentDBIO 클래스는 데이터베이스 기반의 학생 I/O 기능을 구현한 클래스입니다.
  * StudentIO 인터페이스를 구현하며, 기본적인 CRUD 기능을 제공합니다.
  */
-public class StudentDBIO extends ObjectIO implements StudentIO {
+public abstract class StudentDBIO extends ObjectIO implements StudentIO {
     public List<Student> students = new ArrayList<>();
 
     /**
@@ -13,6 +13,8 @@ public class StudentDBIO extends ObjectIO implements StudentIO {
      */
     @Override
     public void addStudentInfo() {}
+
+    public abstract void addStudentInfo(String userSno);
 
     /**
      * 학생 정보를 출력합니다.

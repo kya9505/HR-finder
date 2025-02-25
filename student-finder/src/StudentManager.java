@@ -158,14 +158,14 @@ public class StudentManager extends StudentDBIO {
         // menu 1 adds and updates student
         // 학생을 찾아본다.
         String userSno =  readValidatedString("학번 입력(10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");;
-        Student foundStudent = findStudentInDB();
-        if (foundStudent == null) addStudentInfo();
+        Student foundStudent = findStudentInDB(userSno);
+        if (foundStudent == null) addStudentInfo(userSno); // 찾은 학생이 없으니 매개변수 받지말고 이미 입력한 학번만 받기.
         else updateStudentInfo(foundStudent, userSno);
     }
 
-    public Student  findStudentInDB() {
-        String inputSno = readValidatedString("찾을 학생의 학번 입력 (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
-        Student foundStudent = studentDAO.findStudentBySno(inputSno); //
+    public Student  findStudentInDB(String userSno) {
+        //String inputSno = readValidatedString("찾을 학생의 학번 입력 (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
+        Student foundStudent = studentDAO.findStudentBySno(userSno); //
         return foundStudent;
     }
     /**
@@ -201,20 +201,20 @@ public class StudentManager extends StudentDBIO {
         }
     }
     @Override
-    public void addStudentInfo() { // 메소드 두개로 나누기
-        System.out.println("add");
-        String inputSno = readValidatedString("inputSno (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
+    public void addStudentInfo(String userSno) { // 메소드 두개로 나누기
+//        System.out.println("add");
+//        String inputSno = readValidatedString("inputSno (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
 
-        Student foundStudent = studentDAO.findStudentBySno(inputSno); // studentDAO 가 뭘 가리키는지 파악
+        //Student foundStudent = studentDAO.findStudentBySno(userSno); // studentDAO 가 뭘 가리키는지 파악
 
-        if (foundStudent == null) {
+
             String name = readValidatedString("name (한, 영): ", NAME_PATTERN, "한, 영문으로 재입력");
             int[] scores = readSubjectScores();
-            Student student = createStudent(inputSno, name, scores[0], scores[1], scores[2], scores[3]);
+            Student student = createStudent(userSno, name, scores[0], scores[1], scores[2], scores[3]);
 
             studentDAO.save(student);
             students.add(student);
-        }
+
         System.out.println("success");
     }
 
