@@ -31,6 +31,11 @@ public class StudentFileIO extends StudentDBIO {
         return INSTANCE;
     }
 
+    @Override
+    public void addStudentInfo(String userSno) {
+
+    }
+
     /**
      * 학생 정보를 CSV 형식으로 파일에 저장합니다.
      * @param student 저장할 학생 객체

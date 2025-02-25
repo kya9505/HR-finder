@@ -4,11 +4,17 @@ import java.util.List;
 
 /**
  * Student 클래스는 학생 정보를 표현하며, 빌더 패턴을 사용하여 객체를 생성합니다.
+ *
  */
+
 public class Student {
 
+    //pk
     private String sno;
+    //column1
     private String name;
+
+    //column??
     private List<Subject> subjects;
 
     /**
