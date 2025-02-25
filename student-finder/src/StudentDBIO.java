@@ -12,7 +12,7 @@ public class StudentDBIO extends ObjectIO implements StudentIO {
      * 학생 정보를 입력받습니다.
      */
     @Override
-    public void inputStudent() {}
+    public void addStudentInfo() {}
 
     /**
      * 학생 정보를 출력합니다.

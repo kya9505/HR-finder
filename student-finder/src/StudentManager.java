@@ -29,7 +29,7 @@ public class StudentManager extends StudentDBIO {
      * 메인 메뉴와 각 메뉴 번호에 대응하는 작업을 설정합니다.
      */
     private void mainMenu() {
-        menuChoice.put(1, () -> this.inputStudent());
+        menuChoice.put(1, () -> this.runMenu1());
         menuChoice.put(2, this::outputStudent);
         menuChoice.put(3, this::searchBySno);
         menuChoice.put(4, this::sortStudents);
@@ -62,12 +62,12 @@ public class StudentManager extends StudentDBIO {
             try {
                 choice = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("잘못된 입력입니다. 숫자를 입력하세요.");
+                System.out.println("잘못된 입력입니다. 숫자를 입력하세요."); 
                 continue;
             }
-            Runnable action = menuChoice.get(choice);
+            Runnable action = menuChoice.get(choice); // 해쉬맵에서 숫자에 해당하는 메소드 겟 
             if (action != null) {
-                action.run();
+                action.run(); // 널이 아니고 겟하면 메소드 실행하기 
             } else {
                 System.out.println("재입력");
             }
@@ -102,14 +102,14 @@ public class StudentManager extends StudentDBIO {
      * @param max    허용 최대값
      * @return 검증에 성공한 정수값
      */
-    private int readValidatedInt(String prompt, int min, int max) {
+    private int getValidatedInt(String prompt, int min, int max) { // 범위값은 고정되어있는데 필요한가
         while (true) {
             System.out.print(prompt);
             String input = scanner.nextLine().trim();
             try {
-                int value = Integer.parseInt(input);
-                if (value >= min && value <= max) {
-                    return value;
+                int validInput = Integer.parseInt(input);
+                if (validInput >= min && validInput <= max) {
+                    return validInput;
                 } else {
                     System.out.println(min + "~" + max);
                 }
@@ -125,10 +125,10 @@ public class StudentManager extends StudentDBIO {
      * @return korean, english, math, science 순서의 점수를 담은 배열
      */
     private int[] readSubjectScores() {
-        int korean = readValidatedInt("korean: ", 0, 100);
-        int english = readValidatedInt("english: ", 0, 100);
-        int math = readValidatedInt("math: ", 0, 100);
-        int science = readValidatedInt("science: ", 0, 100);
+        int korean = getValidatedInt("korean: ", 0, 100);
+        int english = getValidatedInt("english: ", 0, 100);
+        int math = getValidatedInt("math: ", 0, 100);
+        int science = getValidatedInt("science: ", 0, 100);
         return new int[]{korean, english, math, science};
     }
 
@@ -154,47 +154,66 @@ public class StudentManager extends StudentDBIO {
                 .build();
     }
 
-    /**
-     * 학생 정보를 입력받아 추가하거나, 기존 정보가 있으면 수정합니다.
-     */
-    @Override
-    public void inputStudent() {
-        System.out.println("add");
-        String sno = readValidatedString("sno (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
+    public void runMenu1() {
+        // menu 1 adds and updates student
+        // 학생을 찾아본다.
+        String userSno =  readValidatedString("학번 입력(10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");;
+        Student foundStudent = findStudentInDB();
+        if (foundStudent == null) addStudentInfo();
+        else updateStudentInfo(foundStudent, userSno);
+    }
 
-        Student existingStudent = studentDAO.findStudentBySno(sno);
-        if (existingStudent == null) {
+    public Student  findStudentInDB() {
+        String inputSno = readValidatedString("찾을 학생의 학번 입력 (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
+        Student foundStudent = studentDAO.findStudentBySno(inputSno); //
+        return foundStudent;
+    }
+    /**
+     * 입력된 학번의 학생정보가 있으면 사용자가 업데이트 합니다.
+     */
+    public void updateStudentInfo(Student foundStudent, String inputSno) {
+//        System.out.println("add");
+//        String inputSno = readValidatedString("inputSno (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
+//        Student foundStudent = studentDAO.findStudentBySno(inputSno); //
+        System.out.println("Already registered student number, student name is " + foundStudent.getName());
+        System.out.println("1.edit all info");
+        System.out.println("2.edit subject score");
+        System.out.println("3.exit add");
+        String userChoice = scanner.nextLine().trim();
+
+        if ("1".equals(userChoice)) { // 모든 정보 수정하기.
+            String name = readValidatedString("What is their name? (한, 영): ", NAME_PATTERN, "한, 영문으로 재입력");
+            int[] scores = readSubjectScores(); // get user-input subject scores with a method
+            // scores 배열 안에 들러간 4과목의 데이터
+            Student student = createStudent(inputSno, name, scores[0], scores[1], scores[2], scores[3]);
+            studentDAO.updateStudent(student); // update student db with the student instance just created
+            updateInMemoryStudent(student);
+        } else if ("2".equals(userChoice)) {
+            int[] scores = readSubjectScores();
+            Student student = createStudent(inputSno, foundStudent.getName(), scores[0], scores[1], scores[2], scores[3]);
+            studentDAO.updateStudentScores(student);
+            updateInMemoryStudent(student);
+        } else if ("3".equals(userChoice)) {
+            System.out.println("exit");
+            return;
+        } else {
+            System.out.println("잘못된 입력");
+        }
+    }
+    @Override
+    public void addStudentInfo() { // 메소드 두개로 나누기
+        System.out.println("add");
+        String inputSno = readValidatedString("inputSno (10자리수): ", SNO_PATTERN, "정확히 10자리 수 재입력");
+
+        Student foundStudent = studentDAO.findStudentBySno(inputSno); // studentDAO 가 뭘 가리키는지 파악
+
+        if (foundStudent == null) {
             String name = readValidatedString("name (한, 영): ", NAME_PATTERN, "한, 영문으로 재입력");
             int[] scores = readSubjectScores();
-            Student student = createStudent(sno, name, scores[0], scores[1], scores[2], scores[3]);
+            Student student = createStudent(inputSno, name, scores[0], scores[1], scores[2], scores[3]);
 
             studentDAO.save(student);
             students.add(student);
-        } else {
-            System.out.println("already regist sno, student name: " + existingStudent.getName());
-            System.out.println("1.edit all info");
-            System.out.println("2.edit subject score");
-            System.out.println("3.exit add");
-            String option = scanner.nextLine().trim();
-            if ("1".equals(option)) {
-                String name = readValidatedString("name (한, 영): ", NAME_PATTERN, "한, 영문으로 재입력");
-                int[] scores = readSubjectScores();
-                Student student = createStudent(sno, name, scores[0], scores[1], scores[2], scores[3]);
-
-                studentDAO.updateStudent(student);
-                updateInMemoryStudent(student);
-            } else if ("2".equals(option)) {
-                int[] scores = readSubjectScores();
-                Student student = createStudent(sno, existingStudent.getName(), scores[0], scores[1], scores[2], scores[3]);
-
-                studentDAO.updateStudentScores(student);
-                updateInMemoryStudent(student);
-            } else if ("3".equals(option)) {
-                System.out.println("exit");
-                return;
-            } else {
-                System.out.println("잘못된 입력");
-            }
         }
         System.out.println("success");
     }

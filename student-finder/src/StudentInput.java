@@ -5,5 +5,5 @@ public interface StudentInput {
     /**
      * 학생 정보를 입력받는 메서드
      */
-    void inputStudent();
+    void addStudentInfo();
 }
