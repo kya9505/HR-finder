@@ -30,9 +30,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="d9fa6967-fd3f-43a1-ae55-f1d86a6c0a22" object-ref="consoles/SMS" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="d9fa6967-fd3f-43a1-ae55-f1d86a6c0a22" />
