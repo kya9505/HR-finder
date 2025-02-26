@@ -12,7 +12,7 @@ import java.util.List;
 public class StudentDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/SMS";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "wjdaudco";
+    private static final String PASSWORD = "root";
 
     /**
      * 데이터베이스 연결을 생성합니다.

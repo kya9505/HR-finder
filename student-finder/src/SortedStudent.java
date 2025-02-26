@@ -9,7 +9,7 @@ public interface SortedStudent {
      * 학생 리스트를 총점 기준으로 정렬합니다.
      * @param students 학생 리스트
      */
-    void sortByTotal(List<Student> students);
+    void sortByTotal(List<Student> students); // List<Student> 를 받음.
 
     /**
      * 학생 리스트를 학번 기준으로 정렬합니다.
