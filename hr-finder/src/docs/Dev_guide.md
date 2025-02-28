@@ -8,22 +8,22 @@ hr 데이터베이스를 기반으로 데이터를 이용해 구현할 수 있�
 
 # 인터페이스 
 EmployeeService 
-- addEmployee
-- updateEmployee
-- deleteEmployee 
+- addEmployee - 직원을 디비에 추가한다. 
+- updateEmployee - 직원 정보를 디비에 업데이트 한다. 
+- deleteEmployee - 직원을 디비에서 삭제한다. 
 - Employee getEmployeeById(int id)
-- List<Employee> getAllEmployee
+- List<Employee> getAllEmployee - 디비의 직원 정보를 모두 받는다. 
 
 SortEmployee 
 - sortBy() - 특정 기준을 기준으로 직원을 정렬한다. 
 
 PerformanceService 
 - 연말 평가에 따라 등급을 나눠 직원별 등급을 부여받는다. 
-- getEmployeesOfGrade - 특정 등급의 직원들을 구한다. 
+- getEmployeesOfGrade - 특정 _등급의 직원들을 구한다. 
 - increaseSalary - 특정 지원이나, 직원 리스트의 월급을 인상한다. 
 
 PayrollService 
-- processPayroll(int employeeId)
+- processPayroll(int employeeId)_
 - double calculateSalary(int employeeId) - 어떤걸 파라미터로 설정해야 적절할까 
 - List<Payroll> getPayrollHistory(int employeeId
 
