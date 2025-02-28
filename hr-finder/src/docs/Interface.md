@@ -9,6 +9,7 @@ double getAnnualSalary(int employeeId);
 
 boolean applyPerfBonus(int employeeId, String performanceGrade);
 성과등급은 평가 점수에 따라 A, B, C, D 로 분류된다. 성과 등급에 따라 보너스를 자동 계산하여 지급한다. 이때 보너스를 계산한 연봉이 예산 한도를 초과하면 안된다. 성공하면 참, 실패하면 거짓을 반환한다.
+// '자동 계산' 한다는 부분이 calculateBonus()와 다르다. calculateBonus는 원하는 보너스 만큼(혹은 퍼센트를 정해서) 연봉에 더해 돌려주는 반면, apply는 성과에 따라 지급되는 보너스라는 점이 다르다.
 
 직원의 연봉에 대한 보너스를 계산하여 반환한다.
 double calculateBonus(int employeeId, double percentage);
