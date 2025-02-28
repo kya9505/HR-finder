@@ -18,6 +18,10 @@ public class Employees {
     int manager_id;
     int department_id;
 
+    String newValue;
+    String oldValue;
+    String updateField;
+
     public static EmployeesBuilder builder() {
         return new EmployeesBuilder();
     }
@@ -34,6 +38,9 @@ public class Employees {
         private BigDecimal commission = BigDecimal.ZERO;
         private int manager_id = 0;
         private int department_id = 0;
+        private String updateField;
+        private String newValue;
+        private String oldValue;
 
         public EmployeesBuilder employee_id(int employee_id) {
             this.employee_id = employee_id;
@@ -90,6 +97,21 @@ public class Employees {
             return this;
         }
 
+        public EmployeesBuilder updateField(String updateField) {
+            this.updateField = updateField;
+            return this;
+        }
+
+        public EmployeesBuilder newValue(String newValue) {
+            this.newValue = newValue;
+            return this;
+        }
+
+        public EmployeesBuilder oldValue(String oldValue) {
+            this.oldValue = oldValue;
+            return this;
+        }
+
         public Employees build() {
             Employees employee = new Employees();
             employee.setEmployee_id(this.employee_id);
@@ -103,6 +125,9 @@ public class Employees {
             employee.setCommission(this.commission);
             employee.setManager_id(this.manager_id);
             employee.setDepartment_id(this.department_id);
+            employee.setUpdateField(this.updateField);
+            employee.setNewValue(this.newValue);
+            employee.setOldValue(this.oldValue);
             return employee;
         }
     }
