@@ -1,4 +1,4 @@
-package dto;
+package HRmanager0228.dto;
 
 public class Departments {
     int department_id;

@@ -1,4 +1,4 @@
-package dto;
+package HRmanager0228.dto;
 
 import java.math.BigDecimal;
 import java.sql.Date;
