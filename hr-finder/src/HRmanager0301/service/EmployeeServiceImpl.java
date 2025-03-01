@@ -3,66 +3,122 @@ package HRmanager0301.service;
 import HRmanager0301.dao.EmployeeDaoImpl;
 import HRmanager0301.dto.Employees;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class EmployeeServiceImpl {
    // test용 main
     public static void main(String[] args) {
         EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-        employeeService.searchByEmpId();
+        Scanner sc = new Scanner(System.in);
+        int employee_id = sc.nextInt();
+        employeeService.searchByEmpId(employee_id);
+
     }
 
     private final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
-    Scanner sc = new Scanner(System.in);
+
 
     //사원 번호를 기준으로 검색
-    public List<Employees> searchByEmpId() {
-        System.out.print("enter(employee_id) : ");
-        int employee_id = sc.nextInt();
-        sc.nextLine();
-        List<Employees> searchList = employeeDao.findEmployee("employee_id", employee_id);
-        if (searchList == null) {
-            System.out.println("No applicable employees " + employee_id);
+    public List<Employees> searchByEmpId(int employee_id) {
+
+        Optional<List<Employees>> searchList = employeeDao.findEmployee("employee_id", employee_id);
+        if (searchList.isEmpty()) {
+            System.out.println("Employee not found" + employee_id);
         } else {
-            serchSubMenu(searchList);
+            serchSubMenu(searchList.get());
         }
-        return searchList;
+        return searchList.orElse(new ArrayList<>());
     }
 
     //이름으로 검색 - last name 검색
-    public void searchByLastname(String last_name) {
+    public List<Employees>  searchByLastname(String Last_name) {
+
+        Optional<List<Employees>> searchList = employeeDao.findEmployee("last_name", Last_name);
+
+        if (searchList.isEmpty()) {
+            System.out.println("Employee not found" + Last_name);
+        } else {
+            serchSubMenu(searchList.get());
+        }
+        return searchList.orElse(new ArrayList<>());
     }
 
     //이름 검색 - first name 검색
-    public void searchByFirstname(String First_name) {
+    public List<Employees> searchByFirstname(String First_name) {
+
+        Optional<List<Employees>>  searchList = employeeDao.findEmployee("first_name", First_name);
+        if (searchList.isEmpty()) {
+            System.out.println("Employee not found" + First_name);
+        } else {
+            serchSubMenu(searchList.get());
+        }
+        return searchList.orElse(new ArrayList<>());
     }
 
     //직업 검색
-    public void searchByJobId(String job_id) {
+    public List<Employees> searchByJobId(String job_id) {
+
+        Optional<List<Employees>>  searchList = employeeDao.findEmployee("job_id", job_id);
+        if (searchList.isEmpty()) {
+            System.out.println("Employee not found" + job_id);
+        } else {
+            serchSubMenu(searchList.get());
+        }
+        return searchList.orElse(new ArrayList<>());
     }
 
 
     //고용일/근속기간 검색 - 고용일 검색
-    public void searchByHireDate(Date hire_date) {
+    public List<Employees> searchByHireDate(Date hire_date) {
+
+        Optional<List<Employees>>  searchList = employeeDao.findEmployee("hire_date", hire_date);
+        if (searchList.isEmpty()) {
+            System.out.println("Employee not found"  + hire_date);
+        } else {
+            serchSubMenu(searchList.get());
+        }
+        return searchList.orElse(new ArrayList<>());
+
     }
 
-    //고용일/근속기간 검색 - 근무기간 검색
-    public void searchByEmploymentDuration(Date startDate, Date endDate) {
+    //고용일/근속기간 검색 - 근무기간 검색 : job_history
+    public List<Employees> searchByEmploymentDuration(Date startDate, Date endDate) {
+
+        Optional<List<Employees>> searchList = employeeDao.findDuration(startDate, endDate);
+        if (searchList.isEmpty()) {
+            System.out.println("Employee not found"  );
+        } else {
+            serchSubMenu(searchList.get());
+        }
+        return searchList.orElse(new ArrayList<>());
     }
 
-    //고용일/근속기간 검색 - 연차 검색
-    public void searchsByServiceYears(int minYears, int maxYears) {
-    }
+    //고용일/근속기간 검색 - 근속년도 검색(연차) : job_history
+    // 고용일/근속기간 검색 - 근속년도 검색(연차) : job_history
+    public List<Employees> searchByServiceYears(int years) {
 
-    //근무지역으로 검색 - 지역으로 검색 department,location join
-    public void searchByLocation(int location_id) {
-    }
+        Calendar calendar = Calendar.getInstance();
+        Date endDate = calendar.getTime(); // 현재 날짜 설정
 
+        calendar.add(Calendar.YEAR, -years); // 'years'년 전 날짜로 이동
+        Date startDate = calendar.getTime(); // 시작 날짜 설정
+
+        //퇴사자까지
+        Optional<List<Employees>> searchList = employeeDao.findDuration(startDate, endDate);
+        if (searchList.isEmpty()) {
+            System.out.println("Employee not found");
+        } else {
+            serchSubMenu(searchList.get());
+        }
+        return searchList.orElse(new ArrayList<>());
+    }
     //subMenu : 직원수만 확인 하거나 해당 직원의 정보를 조회할 수 있다.
     public List<Employees> serchSubMenu(List<Employees> searchList) {
+        Scanner sc = new Scanner(System.in);
 
         while (true) {
             System.out.println("1. Count  2. All Load");
