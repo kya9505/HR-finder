@@ -94,32 +94,7 @@ public class EmployeeServiceImpl {
         }
         return searchList.orElse(new ArrayList<>());
     }
-//
-//    // 고용일/근속기간 검색 - 근속년도 검색(연차) : job_history
-//    public List<Employees> searchByServiceYears(int years) {
-//
-//        Calendar calendar = Calendar.getInstance();
-//        Date endDate = calendar.getTime(); // 현재 날짜 설정
-//        java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
-//
-//        calendar.add(Calendar.YEAR, -years); // 'years'년 전 날짜로 이동
-//        Date startDate = calendar.getTime(); // 시작 날짜 설정
-//        java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
-//
-//        // 'years-1' 범위로 날짜 계산
-//        calendar.add(Calendar.YEAR, 1); // 시작 날짜를 다시 한 해 더 가게끔 설정
-//        Date lowerBoundStartDate = calendar.getTime(); // 'years-1' 범위의 시작 날짜
-//        java.sql.Date sqlLowerBoundStartDate = new java.sql.Date(lowerBoundStartDate.getTime());
-//
-//        //퇴사자까지
-//        Optional<List<Employees>> searchList = employeeDao.findEmployee();
-//        if (searchList.isEmpty()) {
-//            System.out.println("Employee not found");
-//        } else {
-//            searchSubMenu(searchList.get());
-//        }
-//        return searchList.orElse(new ArrayList<>());
-//    }
+
 
     //subMenu : 직원수만 확인 하거나 해당 직원의 정보를 조회할 수 있다.
     public List<Employees> searchSubMenu(List<Employees> searchList) {
