@@ -17,7 +17,7 @@ public class EmployeeDaoImpl {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-
+    //db임의 연동
     private Connection getConnection() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);

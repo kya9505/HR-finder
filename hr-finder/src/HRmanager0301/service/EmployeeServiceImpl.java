@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeServiceImpl {
+   // test용 main
     public static void main(String[] args) {
         EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
         employeeService.searchByEmpId();
@@ -24,7 +25,7 @@ public class EmployeeServiceImpl {
         sc.nextLine();
         List<Employees> searchList = employeeDao.findEmployee("employee_id", employee_id);
         if (searchList == null) {
-            System.out.println("no " + employee_id);
+            System.out.println("No applicable employees " + employee_id);
         } else {
             serchSubMenu(searchList);
         }
