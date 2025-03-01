@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 public class SalaryServiceImpl implements SalaryService {
 
-
     public Optional<Employee> findEmployee(int employeeId) {
         for(Employee employee : employees) {
             if(employee.getEmployeeId() == employeeId) {
@@ -153,7 +152,7 @@ public class SalaryServiceImpl implements SalaryService {
         return increasedSalary;
     }
 
-    // 임직원 관리쪽의 직원 검색 메소드를 여기서 사용해도 되려나?
+    // 임직원 관리쪽의 직원 검색 메소드를 여기서 사용하거나 프라이빗 메소드로 두기.
     private Employee searchEmployee(int employeeId) {
         for(Employee employee : employees) {
             if(employee.getEmployeeId() == employeeId) {
@@ -168,7 +167,6 @@ public class SalaryServiceImpl implements SalaryService {
         int score = searchEmployee(employeeId).getPerfScore(); // 사원 객체의 평가 점수. // getPerfScore는 특정 직원의 점수 필드값.
         int scoreOneDigit = score / 10; // 나머지 빼고 십의 자리만
 
-        // break 문이 필요 없는 enhanced switch
         char grade = switch (scoreOneDigit) {
             case 10 -> 'S';
             case 9 -> (score >= 95) ? 'S' : 'A'; // 95 above is S
