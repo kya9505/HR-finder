@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="80c10be7-0e73-40e4-b8c5-4c28ef3e5d14" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/student-finder/src/Test/RepositoryTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="80c10be7-0e73-40e4-b8c5-4c28ef3e5d14" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,10 +44,10 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "seon",
+    "git-widget-placeholder": "yun",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/rlckd/OneDrive/문서/GitHub/HR-finder",
+    "last_opened_file_path": "C:/Users/study/HR-finder",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
@@ -78,6 +74,7 @@
       <workItem from="1739789463798" duration="119000" />
       <workItem from="1739789589519" duration="229000" />
       <workItem from="1739789832296" duration="297000" />
+      <workItem from="1740796886521" duration="165000" />
     </task>
     <servers />
   </component>
