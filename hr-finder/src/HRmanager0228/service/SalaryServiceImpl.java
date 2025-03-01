@@ -64,7 +64,6 @@ public class SalaryServiceImpl implements SalaryService {
         return afterTax;
     }
 
-    // 연봉 속성이 많이 쓰여서 AnnualSalary 필드를 만들어야 할듯?
     @Override
     public double getAnnualSalary(int employeeId) { // before tax
 
@@ -104,9 +103,7 @@ public class SalaryServiceImpl implements SalaryService {
         for (Employee employee: employees) {
             totalSalary += getAnnualSalary(employee.getId); // 클래스 내에서 만든 메소드임.
         }
-        if (totalSalary > budget) return true;
-        else return false;
-
+        return totalSalary > budget;
     }
 
     @Override
