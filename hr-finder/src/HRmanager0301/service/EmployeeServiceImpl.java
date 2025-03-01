@@ -47,7 +47,7 @@ public class EmployeeServiceImpl {
     }
 
     //고용일/근속기간 검색 - 연차 검색
-    public void searchEmployeesByServiceYears(int minYears, int maxYears) {
+    public void searchsByServiceYears(int minYears, int maxYears) {
     }
 
     //근무지역으로 검색 - 지역으로 검색 department,location join
