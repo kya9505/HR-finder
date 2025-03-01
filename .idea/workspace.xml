@@ -56,6 +56,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -102,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740535768502</updated>
-      <workItem from="1740642418147" duration="22781000" />
+      <workItem from="1740642418147" duration="30269000" />
     </task>
     <servers />
   </component>
