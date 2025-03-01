@@ -9,20 +9,26 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeServiceImpl {
+    public static void main(String[] args) {
+        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+        employeeService.searchByEmpId();
+    }
+
     private final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
     Scanner sc = new Scanner(System.in);
 
     //사원 번호를 기준으로 검색
-    public void searchByEmpId(int employee_id) {
-        System.out.println("enter(employee_id) : ");
-        employee_id = sc.nextInt();
+    public List<Employees> searchByEmpId() {
+        System.out.print("enter(employee_id) : ");
+        int employee_id = sc.nextInt();
         sc.nextLine();
-        List<Employees> searchList = employeeDao.findEmployee("employee_id",employee_id);
+        List<Employees> searchList = employeeDao.findEmployee("employee_id", employee_id);
         if (searchList == null) {
             System.out.println("no " + employee_id);
         } else {
             serchSubMenu(searchList);
         }
+        return searchList;
     }
 
     //이름으로 검색 - last name 검색
@@ -55,8 +61,8 @@ public class EmployeeServiceImpl {
     }
 
     //subMenu : 직원수만 확인 하거나 해당 직원의 정보를 조회할 수 있다.
-    public String serchSubMenu(List<Employees> searchList) {
-        int cnt = 0;
+    public List<Employees> serchSubMenu(List<Employees> searchList) {
+
         while (true) {
             System.out.println("1. Count  2. All Load");
             String input = sc.nextLine();
@@ -65,23 +71,25 @@ public class EmployeeServiceImpl {
                 int subchoice = Integer.parseInt(input);
                 switch (subchoice) {
                     case 1:
-                        for(int i=0; i<searchList.size(); i++){
-                            cnt ++;
-                        }
-                        System.out.println("Number of applicable employees : "+cnt);
+                        System.out.println("Number of applicable employees : " + searchList.size());
+                        break;
                     case 2:
                         System.out.println("result applicable employees ");
-                        for(Employees employees : searchList){
+                        for (Employees employees : searchList) {
                             System.out.println(employees);
                             System.out.println();
                         }
+                        break;
                     default:
                         System.out.println("Please select again, 1 or 2");
                 }
+                break;
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a number");
             }
         }
+        return searchList;
     }
 }
+
 

@@ -3,6 +3,7 @@ package HRmanager0301.dao;
 import HRmanager0301.dto.Employees;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -12,6 +13,16 @@ import java.util.function.Function;
 import static java_advanced.src.Quest.dao.DBUtil.getConnection;
 
 public class EmployeeDaoImpl {
+    private static final String URL = "jdbc:mysql://localhost:3306/hrdb?serverTimezone=Asia/Seoul";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "root";
+
+
+    private Connection getConnection() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    }
+
 
     public <T>  List<Employees> findEmployee(String searchMenu, T serchvalue) {
 
@@ -22,9 +33,8 @@ public class EmployeeDaoImpl {
 
         try {
             Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM STUDENT WHERE ?  = ?");
-            pstmt.setString(1, searchMenu);
-            pstmt.setString(2, strValue);
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM employees WHERE " + searchMenu +" = ?");
+            pstmt.setString(1, strValue);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -34,13 +44,10 @@ public class EmployeeDaoImpl {
                             .email(rs.getString("email"))
                             .hire_date(rs.getDate("hire_date"))
                             .job_id(rs.getString("job_id"))
-                            .salary(rs.getBigDecimal("salary"))
-                            .updateField(rs.getString("updateField"))
-                            .newValue(rs.getString("newValue"))
-                            .oldValue(rs.getString("oldValue"));
+                            .salary(rs.getBigDecimal("salary"));
                             builder.first_name(rs.getString("first_name"));
                             builder.phone_number(rs.getString("phone_number"));
-                            builder.commission(rs.getBigDecimal("commission"));
+                            builder.commission(rs.getBigDecimal("commission_pct"));
                             builder.manager_id(rs.getInt("manager_id"));
                             builder.department_id(rs.getInt("department_id"));
                             findList.add(builder.build());
