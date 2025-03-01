@@ -1,11 +1,19 @@
 package HRmanager0301.service;
 
+import HRmanager0301.dto.Employees;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class EmployeeServiceImpl {
 
+    ArrayList employeesList  = new ArrayList<Employees>();
+
     //사원 번호를 기준으로 검색
-    public void findByEmpId(int employee_id){}
+    public void findByEmpId(int employee_id){
+
+    }
 
     //이름으로 검색 - last name 검색
     public void findByLastname(String last_name ){}
