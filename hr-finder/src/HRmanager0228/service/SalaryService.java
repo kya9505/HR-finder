@@ -11,6 +11,6 @@ public interface SalaryService {
     public double getAverageSalaryDpt(int departmentId);
     public double simulateSalaryRaise(int employeeId, double percentage);
     public boolean isBudgetExceeded(double budget); // budget 이 매년 바뀔 수 있으니 파라미터로.
-
+    public double simulateAnnSalaryRaise(int employeeId, double percentage);
     public double getIncreasedAnnualSalary(int employeeId, char performanceGrade);
 }

@@ -90,16 +90,34 @@ public class SalaryServiceImpl implements SalaryService {
 
     @Override
     public double getAverageSalaryDpt(int departmentId) { // 같은 부서에서 평균 연봉
-        // 혹은 직원 리스트에서 부서아이디를 갖고 있는 직원 모두 찾기 => 객체에 넣기.
+        //  직원 리스트에서 부서아이디를 갖고 있는 직원 모두 찾기 => 객체에 넣기.
         // 1. 객체안의  모든 직원의 연봉 더하기.
         // 2. 부서의 직원 수 구하기.
+        List<Employee> matchedEmployees = employees.stream()
+                .filter(emp -> departmentId.equals(emp.getDepartmentId()))
+                .collect(Collectors.toList()); // 매칭되는 직원들을 리스트에 담기
+        double totalSal =matchedEmployees.stream()
+                .mapToDouble(emp -> emp.getsalary() * 12) // mapToDouble 을 이용해 바로 double 타입을 반환, 집계함수sum() 쓸 수 있도록함.
+                .sum();
 
-        return 0;
+        int count = matchedEmployees.size();
+        double avgAnnSalDptId= totalSal / count;
+        return avgAnnSalDptId;
+
     }
 
+    // 성과별로 연봉인상하지 않고, 인상률 넣고 시뮬레이션 해보기.
     @Override
     public double simulateAnnSalaryRaise(int employeeId, double percentage) {
-        return 0;
+            double simulatedSal = 0.0;
+        Optional<Employee> matchedEmpl = findEmployee(employeeId);
+        if(matchedEmpl.isPresent()) {
+           simulatedSal = matchedEmpl.map(emp -> (emp.getSalary() * 12) * (1 + percentage * 0.01))
+
+        }else System.out.println("Employee not found.");
+
+
+        return simulatedSal;
     }
 
     @Override
