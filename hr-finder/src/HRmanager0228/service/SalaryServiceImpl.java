@@ -1,6 +1,7 @@
 package HRmanager0228.service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SalaryServiceImpl implements SalaryService {
 
@@ -74,10 +75,17 @@ public class SalaryServiceImpl implements SalaryService {
 
 
     @Override
-    public double getAverageAnnSalary(int employeeId) { // 같은 직무안에서 평균 연봉
+    public double getAvgAnnSalJobId(int jobId) { //
+        List<Employee> matchedEmployees = employees.stream()
+                .filter(emp -> jobId.equals(emp.getJobId()))
+        .collect(Collectors.toList()); // 매칭되는 직원들을 리스트에 담기
+        double totalSal =matchedEmployees.stream()
+                .mapToDouble(emp -> emp.getsalary() * 12) // mapToDouble 을 이용해 바로 double 타입을 반환, 집계함수sum() 쓸 수 있도록함.
+                .sum();
 
-
-        return 0;
+        int count = matchedEmployees.size();
+        double avgAnnSalJobId = totalSal / count;
+        return avgAnnSalJobId;
     }
 
     @Override
