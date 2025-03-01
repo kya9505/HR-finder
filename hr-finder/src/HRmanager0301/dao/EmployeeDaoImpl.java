@@ -62,17 +62,17 @@ public class EmployeeDaoImpl {
     }
 
     //job_history join
-    public Optional<List<Employees>>findDuration(Date startDate, Date endDate) {
+    public Optional<List<Employees>>findDuration(java.sql.Date startDate, java.sql.Date endDate) {
         List<Employees> findJobHistoryList = new ArrayList<>();
         try {
             Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement("SELECT * " +
                     "FROM employees e ,job_history j  " +
-                    "WHERE e.employee_id = j.employee_id AND (j.start_date BETWEEN ? AND ?) AND (j.end_date BETWEEN ? AND ? OR j.endDate IS NULL)");
-            pstmt.setDate(1, (java.sql.Date) startDate);
-            pstmt.setDate(2, (java.sql.Date) endDate);
-            pstmt.setDate(3, (java.sql.Date) startDate);
-            pstmt.setDate(4, (java.sql.Date) endDate);
+                    "WHERE e.employee_id = j.employee_id AND (j.start_date BETWEEN ? AND ?) AND (j.end_date BETWEEN ? AND ? OR j.end_date IS NULL)");
+            pstmt.setDate(1, startDate);
+            pstmt.setDate(2, endDate);
+            pstmt.setDate(3, startDate);
+            pstmt.setDate(4, endDate);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {

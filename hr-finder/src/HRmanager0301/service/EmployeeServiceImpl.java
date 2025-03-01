@@ -3,6 +3,8 @@ package HRmanager0301.service;
 import HRmanager0301.dao.EmployeeDaoImpl;
 import HRmanager0301.dto.Employees;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
@@ -10,15 +12,6 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 public class EmployeeServiceImpl {
-   // test용 main
-    public static void main(String[] args) {
-        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-        Scanner sc = new Scanner(System.in);
-        int employee_id = sc.nextInt();
-        employeeService.searchByEmpId(employee_id);
-
-    }
-
     private final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
 
 
@@ -29,7 +22,7 @@ public class EmployeeServiceImpl {
         if (searchList.isEmpty()) {
             System.out.println("Employee not found" + employee_id);
         } else {
-            serchSubMenu(searchList.get());
+            searchSubMenu(searchList.get());
         }
         return searchList.orElse(new ArrayList<>());
     }
@@ -42,7 +35,7 @@ public class EmployeeServiceImpl {
         if (searchList.isEmpty()) {
             System.out.println("Employee not found" + Last_name);
         } else {
-            serchSubMenu(searchList.get());
+            searchSubMenu(searchList.get());
         }
         return searchList.orElse(new ArrayList<>());
     }
@@ -54,7 +47,7 @@ public class EmployeeServiceImpl {
         if (searchList.isEmpty()) {
             System.out.println("Employee not found" + First_name);
         } else {
-            serchSubMenu(searchList.get());
+            searchSubMenu(searchList.get());
         }
         return searchList.orElse(new ArrayList<>());
     }
@@ -64,9 +57,9 @@ public class EmployeeServiceImpl {
 
         Optional<List<Employees>>  searchList = employeeDao.findEmployee("job_id", job_id);
         if (searchList.isEmpty()) {
-            System.out.println("Employee not found" + job_id);
+            System.out.println("Employee not found " + job_id);
         } else {
-            serchSubMenu(searchList.get());
+            searchSubMenu(searchList.get());
         }
         return searchList.orElse(new ArrayList<>());
     }
@@ -74,12 +67,14 @@ public class EmployeeServiceImpl {
 
     //고용일/근속기간 검색 - 고용일 검색
     public List<Employees> searchByHireDate(Date hire_date) {
+        // java.util.Date를 java.sql.Date로 변환
+        java.sql.Date sqlHireDate = new java.sql.Date(hire_date.getTime());
 
-        Optional<List<Employees>>  searchList = employeeDao.findEmployee("hire_date", hire_date);
+        Optional<List<Employees>>  searchList = employeeDao.findEmployee("hire_date", sqlHireDate);
         if (searchList.isEmpty()) {
             System.out.println("Employee not found"  + hire_date);
         } else {
-            serchSubMenu(searchList.get());
+            searchSubMenu(searchList.get());
         }
         return searchList.orElse(new ArrayList<>());
 
@@ -88,36 +83,46 @@ public class EmployeeServiceImpl {
     //고용일/근속기간 검색 - 근무기간 검색 : job_history
     public List<Employees> searchByEmploymentDuration(Date startDate, Date endDate) {
 
-        Optional<List<Employees>> searchList = employeeDao.findDuration(startDate, endDate);
+        java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
+
+        Optional<List<Employees>> searchList = employeeDao.findDuration(sqlStartDate, sqlEndDate);
         if (searchList.isEmpty()) {
             System.out.println("Employee not found"  );
         } else {
-            serchSubMenu(searchList.get());
+            searchSubMenu(searchList.get());
         }
         return searchList.orElse(new ArrayList<>());
     }
+//
+//    // 고용일/근속기간 검색 - 근속년도 검색(연차) : job_history
+//    public List<Employees> searchByServiceYears(int years) {
+//
+//        Calendar calendar = Calendar.getInstance();
+//        Date endDate = calendar.getTime(); // 현재 날짜 설정
+//        java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
+//
+//        calendar.add(Calendar.YEAR, -years); // 'years'년 전 날짜로 이동
+//        Date startDate = calendar.getTime(); // 시작 날짜 설정
+//        java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+//
+//        // 'years-1' 범위로 날짜 계산
+//        calendar.add(Calendar.YEAR, 1); // 시작 날짜를 다시 한 해 더 가게끔 설정
+//        Date lowerBoundStartDate = calendar.getTime(); // 'years-1' 범위의 시작 날짜
+//        java.sql.Date sqlLowerBoundStartDate = new java.sql.Date(lowerBoundStartDate.getTime());
+//
+//        //퇴사자까지
+//        Optional<List<Employees>> searchList = employeeDao.findEmployee();
+//        if (searchList.isEmpty()) {
+//            System.out.println("Employee not found");
+//        } else {
+//            searchSubMenu(searchList.get());
+//        }
+//        return searchList.orElse(new ArrayList<>());
+//    }
 
-    //고용일/근속기간 검색 - 근속년도 검색(연차) : job_history
-    // 고용일/근속기간 검색 - 근속년도 검색(연차) : job_history
-    public List<Employees> searchByServiceYears(int years) {
-
-        Calendar calendar = Calendar.getInstance();
-        Date endDate = calendar.getTime(); // 현재 날짜 설정
-
-        calendar.add(Calendar.YEAR, -years); // 'years'년 전 날짜로 이동
-        Date startDate = calendar.getTime(); // 시작 날짜 설정
-
-        //퇴사자까지
-        Optional<List<Employees>> searchList = employeeDao.findDuration(startDate, endDate);
-        if (searchList.isEmpty()) {
-            System.out.println("Employee not found");
-        } else {
-            serchSubMenu(searchList.get());
-        }
-        return searchList.orElse(new ArrayList<>());
-    }
     //subMenu : 직원수만 확인 하거나 해당 직원의 정보를 조회할 수 있다.
-    public List<Employees> serchSubMenu(List<Employees> searchList) {
+    public List<Employees> searchSubMenu(List<Employees> searchList) {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
