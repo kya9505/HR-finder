@@ -1,12 +1,12 @@
 package HRmanager0228.service;
 
 public interface SalaryService {
-    public double getSalaryBeforeTax(int employeeId);
+    // public double getSalaryBeforeTax(int employeeId);
 
     public double getSalaryAfterTax(int employeeId);
 
     public double getAnnualSalary(int employeeId);
-    //public double getAvgAnnSalJobId(int jobId)
+
     public double getAvgAnnSalJobId(int jobId); // 직무의 평균 연봉
     public double getAverageSalaryDpt(int departmentId);
     public double simulateSalaryRaise(int employeeId, double percentage);

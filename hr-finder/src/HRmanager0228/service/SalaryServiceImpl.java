@@ -42,16 +42,16 @@ public class SalaryServiceImpl implements SalaryService {
 
         return tax + localTax;
     }
-    @Override
-    public double getSalaryBeforeTax(int employeeId) {
-
-        Optional<Employee> matchedEmp = findEmployee(employeeId);
-
-        double empSalary = matchedEmp
-                .map(Employee::getSalary)
-        .orElse("Unknown Employee."); // 기본값 이렇게 돌려주면 되는지 다시 확인하기.
-        return empSalary;
-    }
+//    @Override
+//    public double getSalaryBeforeTax(int employeeId) {
+//
+//        Optional<Employee> matchedEmp = findEmployee(employeeId);
+//
+//        double empSalary = matchedEmp
+//                .map(Employee::getSalary)
+//        .orElse("Unknown Employee."); // 기본값 이렇게 돌려주면 되는지 다시 확인하기.
+//        return empSalary;
+//    }
 
     @Override
     public double getSalaryAfterTax(int employeeId) {
@@ -111,10 +111,10 @@ public class SalaryServiceImpl implements SalaryService {
     public double simulateAnnSalaryRaise(int employeeId, double percentage) {
             double simulatedSal = 0.0;
         Optional<Employee> matchedEmpl = findEmployee(employeeId);
-        if(matchedEmpl.isPresent()) {
+        if(matchedEmpl.isPresent()) { // optional 객체가 존재한다면
            simulatedSal = matchedEmpl.map(emp -> (emp.getSalary() * 12) * (1 + percentage * 0.01))
 
-        }else System.out.println("Employee not found.");
+        }else System.out.println("Employee not found."); // optional 객체가 비어있다면
 
 
         return simulatedSal;
