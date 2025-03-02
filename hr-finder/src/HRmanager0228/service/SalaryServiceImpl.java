@@ -5,7 +5,11 @@ import java.util.stream.Collectors;
 
 public class SalaryServiceImpl implements SalaryService {
 
-    // 특정 직원을 찾는다.
+    /**
+     * employeeId 에 해당하는 직원을 찾는다.
+     * @param employeeId
+     * @return Optional : employeeId에 해당하는 직원이 있으면 Optional 에 담아 반환, 없으면 빈 Optional 반환
+     */
     public Optional<Employee> findEmployee(int employeeId) {
         for(Employee employee : employees) {
             if(employee.getEmployeeId() == employeeId) {
@@ -15,7 +19,11 @@ public class SalaryServiceImpl implements SalaryService {
         return Optional.empty(); // 찾지 못하면 빈 Optional 반환
     }
 
-
+    /**
+     * annualSalary 에 따른 세금을 계산한다.
+     * @param annualSalary
+     * @return double : 연봉에서 떼는 세금 총액을 반홚
+     */
     private double calculateSalTax(double annualSalary) {
         double tax = 0.0;
 
@@ -43,6 +51,11 @@ public class SalaryServiceImpl implements SalaryService {
         return tax + localTax;
     }
 
+    /**
+     * 직원의 세후 연봉을 계산한다.
+     * @param employeeId
+     * @return double : 직원의 세후 연봉 반환
+     */
     @Override
     public double getSalaryAfterTax(int employeeId) {
 
@@ -55,6 +68,11 @@ public class SalaryServiceImpl implements SalaryService {
         return afterTax;
     }
 
+    /**
+     * 직원의 연봉을 계산한다.
+     * @param employeeId
+     * @return double : 직원의 연봉
+     */
     @Override
     public double getAnnualSalary(int employeeId) { // before tax
 
@@ -63,7 +81,11 @@ public class SalaryServiceImpl implements SalaryService {
         return salary * 12;
     }
 
-
+    /**
+     * jobId에 해당하는 직원들의 평균 연봉을 계산한다.
+     * @param jobId
+     * @return double : jobId 의 평균 연봉
+     */
     @Override
     public double getAvgAnnSalJobId(int jobId) { //
         List<Employee> matchedEmployees = employees.stream()
@@ -78,6 +100,11 @@ public class SalaryServiceImpl implements SalaryService {
         return avgAnnSalJobId;
     }
 
+    /**
+     * 주어지는 부서의 평균 연봉을 계산한다.
+     * @param departmentId
+     * @return double : 주어진 부서의 평균 연봉을 반환.
+     */
     @Override
     public double getAverageSalaryDpt(int departmentId) { // 같은 부서에서 평균 연봉
         //  직원 리스트에서 부서아이디를 갖고 있는 직원 모두 찾기 => 객체에 넣기.
@@ -96,6 +123,12 @@ public class SalaryServiceImpl implements SalaryService {
 
     }
 
+    /**
+     * 임의의 인상률을 넣고 직원의 인상된 연봉을 계산한다.
+     * @param employeeId
+     * @param percentage : 임의의 인상률
+     * @return double : 직원의 인상된 연봉
+     */
     // 성과별로 연봉인상하지 않고, 인상률 넣고 시뮬레이션 해보기.
     @Override
     public double simulateAnnSalaryRaise(int employeeId, double percentage) {
@@ -110,6 +143,11 @@ public class SalaryServiceImpl implements SalaryService {
         return simulatedSal;
     }
 
+    /**
+     * 현재 모든 직원의 연봉이 주어지는 회사의 예산을 초과하는지 검사한다.
+     * @param budget : 회사의 예산
+     * @return boolean : 회사의 예산을 초과하면 true, 초과하지 않으면 false를 반환한다.
+     */
     @Override
     public boolean isBudgetExceeded(double budget) {
         // 회사의 버젯 정보 받기.
@@ -122,6 +160,12 @@ public class SalaryServiceImpl implements SalaryService {
         return totalSalary > budget;
     }
 
+    /**
+     * 성과등급에 따라 정해진 인상률을 적용해 직원의 연봉을 인상한다.
+     * @param employeeId
+     * @param performanceGrade
+     * @return double : 인상된 연봉 금액
+     */
     @Override
     public double getIncreasedAnnualSalary(int employeeId, char performanceGrade) {
         char grade = getPerfGrade(employeeId); // 직원의 등급 가져오기
@@ -144,7 +188,11 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
 
-    // 특정 직원의 성과점수에 따라 등급을 매김. 프라이빗 메소드.
+    /**
+     * employeeId를 가진 직원의 성과점수에 따라 등급을 매긴다. 등급을 반환한다.
+     * @param employeeId
+     * @return char : 직원의 성과 등급 'S' ~ 'D'
+     */
     private char getPerfGrade(int employeeId) {
         // id로 찾은 직원의 점수 조회.
         int score = searchEmployee(employeeId).getPerfScore(); // 사원 객체의 평가 점수. // getPerfScore는 특정 직원의 점수 필드값.
