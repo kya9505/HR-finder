@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 public class SalaryServiceImpl implements SalaryService {
 
+    // 특정 직원을 찾는다.
     public Optional<Employee> findEmployee(int employeeId) {
         for(Employee employee : employees) {
             if(employee.getEmployeeId() == employeeId) {
@@ -41,16 +42,6 @@ public class SalaryServiceImpl implements SalaryService {
 
         return tax + localTax;
     }
-//    @Override
-//    public double getSalaryBeforeTax(int employeeId) {
-//
-//        Optional<Employee> matchedEmp = findEmployee(employeeId);
-//
-//        double empSalary = matchedEmp
-//                .map(Employee::getSalary)
-//        .orElse("Unknown Employee."); // 기본값 이렇게 돌려주면 되는지 다시 확인하기.
-//        return empSalary;
-//    }
 
     @Override
     public double getSalaryAfterTax(int employeeId) {
@@ -111,8 +102,8 @@ public class SalaryServiceImpl implements SalaryService {
             double simulatedSal = 0.0;
         Optional<Employee> matchedEmpl = findEmployee(employeeId);
         if(matchedEmpl.isPresent()) { // optional 객체가 존재한다면
-           simulatedSal = matchedEmpl.map(emp -> (emp.getSalary() * 12) * (1 + percentage * 0.01))
-
+            // map() 이 Optional<Double> 반환, Optional에 값이 존재하면 orElse() 가 double 반환
+           simulatedSal = matchedEmpl.map(emp -> (emp.getSalary() * 12) * (1 + percentage * 0.01)).orElse(0.0);
         }else System.out.println("Employee not found."); // optional 객체가 비어있다면
 
 
@@ -122,7 +113,7 @@ public class SalaryServiceImpl implements SalaryService {
     @Override
     public boolean isBudgetExceeded(double budget) {
         // 회사의 버젯 정보 받기.
-        // 모든 직원의 annualSalary를 계산하여 더하기. // getAnnualSalary() 정도는 employee 객체안에 있어도됨(?)// 혹은 직원객체 속성필드로 추가하기.
+        // 모든 직원의 annualSalary를 계산하여 더하기.
         // employees list 에서 가져오기
         double totalSalary = 0;
         for (Employee employee: employees) {
@@ -152,15 +143,7 @@ public class SalaryServiceImpl implements SalaryService {
         return increasedSalary;
     }
 
-    // 임직원 관리쪽의 직원 검색 메소드를 여기서 사용하거나 프라이빗 메소드로 두기.
-    private Employee searchEmployee(int employeeId) {
-        for(Employee employee : employees) {
-            if(employee.getEmployeeId() == employeeId) {
-                return employee;
-            }
-        }
-        return null; // 못찾으면 null 반환.
-    }
+
     // 특정 직원의 성과점수에 따라 등급을 매김. 프라이빗 메소드.
     private char getPerfGrade(int employeeId) {
         // id로 찾은 직원의 점수 조회.
