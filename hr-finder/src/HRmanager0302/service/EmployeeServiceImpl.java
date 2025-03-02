@@ -1,15 +1,9 @@
-package HRmanager0301.service;
+package HRmanager0302.service;
 
-import HRmanager0301.dao.EmployeeDaoImpl;
-import HRmanager0301.dto.Employees;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import HRmanager0302.dao.EmployeeDaoImpl;
+import HRmanager0302.dto.Employees;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
+
 
 public class EmployeeServiceImpl {
     private final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
@@ -86,7 +80,7 @@ public class EmployeeServiceImpl {
         java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
 
-        Optional<List<Employees>> searchList = employeeDao.findDuration(sqlStartDate, sqlEndDate);
+        Optional<List<Employees>> searchList = employeeDao.findJobHistory(sqlStartDate, sqlEndDate);
         if (searchList.isEmpty()) {
             System.out.println("Employee not found"  );
         } else {
@@ -109,6 +103,7 @@ public class EmployeeServiceImpl {
                 switch (subchoice) {
                     case 1:
                         System.out.println("Number of applicable employees : " + searchList.size());
+
                         break;
                     case 2:
                         System.out.println("result applicable employees ");
@@ -129,7 +124,61 @@ public class EmployeeServiceImpl {
     }
 
 
+    //sort : 사원번호를 기준으로 정렬
+    public List<Employees> sortByEmpId() {
+        Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
+        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getEmployee_id));
+        return sortEmployeeList.orElse(new ArrayList<>());
+    }
+    //sort : 이름 기준으로 정렬
+    public List<Employees> ssortByName(){
+        Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
+        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getFirst_name)
+                .thenComparing(Employees::getLast_name));
+        return sortEmployeeList.orElse(new ArrayList<>());
+    }
+    //sort : 입사일 기준으로 정렬
+    public List<Employees> sortByEmploymentDuration(){
+        Optional<List<Employees>> sortEmployeeList = employeeDao.loadJobHistory();
+        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getHire_date));
+        return sortEmployeeList.orElse(new ArrayList<>());
+    }
+    //sort : 사원번호를 기준으로 정렬
+    public List<Employees> sortByJobId(String job_id){
+        Optional<List<Employees>> sortEmployeeList = employeeDao.loadJobHistory();
+        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getJob_id));
+        return sortEmployeeList.orElse(new ArrayList<>());
+    }
 
+    //sort  sub menu : 오름차순 / 내림차순 선택
+    public List<Employees> sortSubmenu(List<Employees> sortList , Comparator<Employees> comparator){
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1. Ascending  2. Descending");
+            String input = sc.nextLine();
+
+            try {
+                int subchoice = Integer.parseInt(input);
+                switch (subchoice) {
+                    case 1:
+                        System.out.println("Sort in ascending order by :" );
+                        sortList.sort(comparator);
+                        break;
+                    case 2:
+                        System.out.println("Sort in descending order by :");
+                        sortList.sort(comparator.reversed());
+                        break;
+                    default:
+                        System.out.println("Please select again, 1 or 2");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number");
+            }
+        }
+        return sortList;
+    }
 }
 
 
