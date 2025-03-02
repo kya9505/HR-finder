@@ -1,4 +1,4 @@
-package HRmanager0301.service;
+package HRmanager0302.service;
 
 public interface SalaryService {
 }

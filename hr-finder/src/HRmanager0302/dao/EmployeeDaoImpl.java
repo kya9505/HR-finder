@@ -21,7 +21,7 @@ public class EmployeeDaoImpl {
 
 
     // search : employee table
-    public <T> Optional<List<HRmanager0302.dto.Employees>> findEmployee(String searchMenu, T searchvalue) {
+    public <T> Optional<List<Employees>> findEmployee(String searchMenu, T searchvalue) {
         Function<T, String> converter = v -> (v instanceof String) ? (String) v : String.valueOf(v);
         String strValue = converter.apply(searchvalue); //String으로 변환
 
@@ -97,36 +97,6 @@ public class EmployeeDaoImpl {
         try {
             Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM employees");
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    Employees.EmployeesBuilder builder = new Employees.EmployeesBuilder()
-                            .employee_id(rs.getInt("employee_id"))
-                            .last_name(rs.getString("last_name"))
-                            .email(rs.getString("email"))
-                            .hire_date(rs.getDate("hire_date"))
-                            .job_id(rs.getString("job_id"))
-                            .salary(rs.getBigDecimal("salary"));
-                    builder.first_name(rs.getString("first_name"));
-                    builder.phone_number(rs.getString("phone_number"));
-                    builder.commission(rs.getBigDecimal("commission_pct"));
-                    builder.manager_id(rs.getInt("manager_id"));
-                    builder.department_id(rs.getInt("department_id"));
-                    loadEmployeeList.add(builder.build());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return loadEmployeeList.isEmpty() ? Optional.empty() : Optional.of(loadEmployeeList);
-
-    }
-
-    public Optional<List<Employees>> loadJobHistory() {
-        List<Employees> loadEmployeeList = new ArrayList<>();
-        try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM employee e ,job_history j WHERE e.employee_id = j.employee_id");
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {

@@ -23,15 +23,15 @@ public interface EmployeeService {
 
 
     //sort : 사원번호를 기준으로 정렬
-    List<Employees> sortByEmpId(int employee_id);
+    List<Employees> sortByEmpId();
     //sort : 이름 기준으로 정렬
-    List<Employees> ssortByName(String fist_name, String last_name);
+    List<Employees> ssortByName();
     //sort : 근속기간 기준으로 정렬
-    List<Employees> sortByEmploymentDuration(Date startDate, Date endDate);
+    List<Employees> sortByEmploymentDuration();
     //sort : 사원번호를 기준으로 정렬
-    List<Employees> sortByJobId(String job_id);
+    List<Employees> sortByJobId();
     //sort  sub menu : 오름차순 / 내림차순 선택
-    List<Employees> sortSubmenu(List<Employees> searchList);
+    List<Employees> sortSubmenu();
 
 
 }

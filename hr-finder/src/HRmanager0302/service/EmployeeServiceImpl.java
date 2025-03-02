@@ -8,7 +8,6 @@ import java.util.*;
 public class EmployeeServiceImpl {
     private final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
 
-
     //사원 번호를 기준으로 검색
     public List<Employees> searchByEmpId(int employee_id) {
 
@@ -128,25 +127,37 @@ public class EmployeeServiceImpl {
     public List<Employees> sortByEmpId() {
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
         sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getEmployee_id));
+        for(Employees employee : sortEmployeeList.get()){
+            System.out.println(employee);
+        }
         return sortEmployeeList.orElse(new ArrayList<>());
     }
     //sort : 이름 기준으로 정렬
-    public List<Employees> ssortByName(){
+    public List<Employees> sortByName(){
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
         sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getFirst_name)
                 .thenComparing(Employees::getLast_name));
+        for(Employees employee : sortEmployeeList.get()){
+            System.out.println(employee);
+        }
         return sortEmployeeList.orElse(new ArrayList<>());
     }
     //sort : 입사일 기준으로 정렬
-    public List<Employees> sortByEmploymentDuration(){
-        Optional<List<Employees>> sortEmployeeList = employeeDao.loadJobHistory();
+    public List<Employees> sortByJHireDate(){
+        Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
         sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getHire_date));
+        for(Employees employee : sortEmployeeList.get()){
+            System.out.println(employee);
+        }
         return sortEmployeeList.orElse(new ArrayList<>());
     }
     //sort : 사원번호를 기준으로 정렬
-    public List<Employees> sortByJobId(String job_id){
-        Optional<List<Employees>> sortEmployeeList = employeeDao.loadJobHistory();
+    public List<Employees> sortByJobId(){
+        Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
         sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getJob_id));
+        for(Employees employee : sortEmployeeList.get()){
+            System.out.println(employee);
+        }
         return sortEmployeeList.orElse(new ArrayList<>());
     }
 
