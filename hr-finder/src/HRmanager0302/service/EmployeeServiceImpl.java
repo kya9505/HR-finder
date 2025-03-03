@@ -126,7 +126,7 @@ public class EmployeeServiceImpl {
     //sort : 사원번호를 기준으로 정렬
     public List<Employees> sortByEmpId() {
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
-        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getEmployee_id));
+        sortSubMenu(sortEmployeeList.get(),Comparator.comparing(Employees::getEmployee_id));
         for(Employees employee : sortEmployeeList.get()){
             System.out.println(employee);
         }
@@ -135,7 +135,7 @@ public class EmployeeServiceImpl {
     //sort : 이름 기준으로 정렬
     public List<Employees> sortByName(){
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
-        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getFirst_name)
+        sortSubMenu(sortEmployeeList.get(),Comparator.comparing(Employees::getFirst_name)
                 .thenComparing(Employees::getLast_name));
         for(Employees employee : sortEmployeeList.get()){
             System.out.println(employee);
@@ -145,7 +145,7 @@ public class EmployeeServiceImpl {
     //sort : 입사일 기준으로 정렬
     public List<Employees> sortByJHireDate(){
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
-        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getHire_date));
+        sortSubMenu(sortEmployeeList.get(),Comparator.comparing(Employees::getHire_date));
         for(Employees employee : sortEmployeeList.get()){
             System.out.println(employee);
         }
@@ -154,7 +154,7 @@ public class EmployeeServiceImpl {
     //sort : 사원번호를 기준으로 정렬
     public List<Employees> sortByJobId(){
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployee();
-        sortSubmenu(sortEmployeeList.get(),Comparator.comparing(Employees::getJob_id));
+        sortSubMenu(sortEmployeeList.get(),Comparator.comparing(Employees::getJob_id));
         for(Employees employee : sortEmployeeList.get()){
             System.out.println(employee);
         }
@@ -162,7 +162,7 @@ public class EmployeeServiceImpl {
     }
 
     //sort  sub menu : 오름차순 / 내림차순 선택
-    public List<Employees> sortSubmenu(List<Employees> sortList , Comparator<Employees> comparator){
+    public List<Employees> sortSubMenu(List<Employees> sortList , Comparator<Employees> comparator){
         Scanner sc = new Scanner(System.in);
 
         while (true) {
