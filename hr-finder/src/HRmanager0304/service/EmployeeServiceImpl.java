@@ -3,8 +3,9 @@ package HRmanager0304.service;
 import HRmanager0304.dao.EmployeeDaoImpl;
 import HRmanager0304.dto.Employees;
 import java.util.*;
+import static HRmanager0304.util.validation.ConsoleInputValidator.validateFieldValue;
 
-public class EmployeeServiceImpl {
+public class EmployeeServiceImpl implements EmployeeService{
     private final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
 
     // 사원 번호를 기준으로 검색
@@ -123,6 +124,7 @@ public class EmployeeServiceImpl {
         }
         return sortList;
     }
+    @Override
     public List<Employees> addEmployee(Employees employee) {
         var insertedEmployee = employeeDao.addEmployee(employee);
         insertedEmployee.ifPresentOrElse(
@@ -134,6 +136,7 @@ public class EmployeeServiceImpl {
                 .orElse(new ArrayList<>());
     }
 
+    @Override
     public List<Employees> deleteEmployee(int employeeId) {
         var deletedEmployee = employeeDao.deleteEmployee(employeeId);
         deletedEmployee.ifPresentOrElse(
@@ -145,6 +148,7 @@ public class EmployeeServiceImpl {
                 .orElse(new ArrayList<>());
     }
 
+    @Override
     public List<Employees> updateEmployee(Employees employee) {
         var updatedEmployee = employeeDao.updateEmployee(employee);
         updatedEmployee.ifPresentOrElse(
@@ -156,6 +160,7 @@ public class EmployeeServiceImpl {
                 .orElse(new ArrayList<>());
     }
 
+    @Override
     public List<Employees> updateName(String oldFullName, String newFirstName, String newLastName) {
         var updatedEmployees = employeeDao.updateName(oldFullName, newFirstName, newLastName);
         updatedEmployees.ifPresentOrElse(
@@ -168,7 +173,17 @@ public class EmployeeServiceImpl {
         return updatedEmployees.orElse(Collections.emptyList());
     }
 
+    @Override
     public List<Employees> updateByChoice(String fieldToUpdate, String oldValue, String newValue) {
+        if (!validateFieldValue(fieldToUpdate, oldValue)) {
+            System.out.println("Invalid old value for field: " + fieldToUpdate);
+            return Collections.emptyList();
+        }
+        if (!validateFieldValue(fieldToUpdate, newValue)) {
+            System.out.println("Invalid new value for field: " + fieldToUpdate);
+            return Collections.emptyList();
+        }
+
         var updatedEmployees = employeeDao.updateByChoice(fieldToUpdate, oldValue, newValue);
         updatedEmployees.ifPresentOrElse(
                 list -> {

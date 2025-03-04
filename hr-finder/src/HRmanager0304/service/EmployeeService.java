@@ -27,8 +27,6 @@ public interface EmployeeService {
     //고용일/근속기간 검색 - 근무기간 검색 : job_history
     List<Employees> searchByEmploymentDuration(Date startDate, Date endDate);
 
-    List<Employees> searchSubMenu(List<Employees> searchList);
-
     //sort : 사원번호를 기준으로 정렬
     List<Employees> sortByEmpId();
     //sort : 이름 기준으로 정렬
@@ -38,7 +36,8 @@ public interface EmployeeService {
     //sort : 사원번호를 기준으로 정렬
     List<Employees> sortByJobId();
     //sort  sub menu : 오름차순 / 내림차순 선택
-    List<Employees> sortSubMenu(List<Employees> sortList, Comparator<Employees> comparator);
+    int searchSubMenu1(List<Employees> searchList);
+    List<Employees> searchSubMenu2(List<Employees> searchList);
+    List<Employees> sortEmployees(List<Employees> sortList, int choiceSubMenu);
 
-
-}
+    }

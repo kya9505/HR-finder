@@ -1,4 +1,4 @@
-package HRmanager0303.dto;
+package HRmanager0304.dto;
 
 import java.math.BigDecimal;
 
