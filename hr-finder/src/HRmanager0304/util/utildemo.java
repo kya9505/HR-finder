@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 public class utildemo {
     private static ResourceBundle bundle;
 
-    static { // 클래스명으로 호출하려고?
-        bundle = ResourceBundle.getBundle("HRmanager0304.cofing.dbinfo");
+    static {
+        bundle = ResourceBundle.getBundle("src.cofing.dbinfo");
         try {
             Class.forName(bundle.getString("driver")); // db 드라이버 조회
         } catch (

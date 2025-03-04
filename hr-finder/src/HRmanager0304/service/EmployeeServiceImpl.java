@@ -11,7 +11,6 @@ public class EmployeeServiceImpl implements EmployeeService{
     // 사원 번호를 기준으로 검색
     public List<Employees> searchByEmpId(int employee_id) {
         Optional<List<Employees>> searchList = employeeDao.findEmployee("employee_id", employee_id);
-
         return searchList.orElse(new ArrayList<>());
     }
 
@@ -63,9 +62,6 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     public  List<Employees> searchSubMenu2(List<Employees> searchList){
-        for (Employees employee : searchList) {
-            System.out.println(employee);
-        }
         return searchList;
     }
 

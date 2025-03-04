@@ -275,7 +275,6 @@ public class EmployeeController {
     }
 
     public void searchSubMenu(int subMenuChoice, List<Employees> searchList) {
-
         switch (subMenuChoice) {
             case 1:
                 int count = employeeService.searchSubMenu1(searchList);
@@ -283,11 +282,14 @@ public class EmployeeController {
                 break;
             case 2:
                 List<Employees> employees = employeeService.searchSubMenu2(searchList);
-                employeeIO.printSearchSubmenu2(employees);
+                if (!employees.isEmpty()) {
+                    employeeIO.printSearchSubmenu2(employees);
+                }
                 break;
             default:
-                System.out.println("Please choose between 1 and 2");
+                System.out.println("Please choose 1 or 2");
         }
     }
+
 }
 

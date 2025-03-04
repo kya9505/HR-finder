@@ -16,7 +16,7 @@ public class EmployeeIO {
     private Scanner scanner = new Scanner(System.in);
 
     public int readEmployeeId() {
-        return validator.readValidatedInt("employee_id(int) : ", 0, 10, "Please Check Employee ID");
+        return validator.readValidatedInt("employee_id(int) : ", 0, 999, "Please Check Employee ID");
     }
 
     public String readString() {
