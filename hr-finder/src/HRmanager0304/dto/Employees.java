@@ -1,11 +1,11 @@
-package HRmanager0303.dto;
+package HRmanager0304.dto;
 
 import lombok.Data;
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Data
-public class Employees  {
+public class Employees {
     int employee_id;
     String first_name;
     String last_name;
