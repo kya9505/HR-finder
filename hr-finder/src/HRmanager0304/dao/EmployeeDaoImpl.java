@@ -1,6 +1,7 @@
 package HRmanager0304.dao;
 
 import HRmanager0304.dto.Employees;
+import java_advanced.src.Quest.dao.DBUtil;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -9,17 +10,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static HRmanager0304.service.LoginDemoImpl.*;
+import static HRmanager0304.util.utildemo.getConnection;
+
 public class EmployeeDaoImpl {
-    private static final String URL = "jdbc:mysql://localhost:3306/hrdb?serverTimezone=Asia/Seoul";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-
-    //db임의 연동
-    private Connection getConnection() throws Exception {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-    }
-
+    Connection conn = null;
+    PreparedStatement pstmt = null;
 
     // search : employee table
     public <T> Optional<List<Employees>> findEmployee(String searchMenu, T searchvalue) {
@@ -29,8 +25,8 @@ public class EmployeeDaoImpl {
         List<Employees> findEmployeeList = new ArrayList<>();
 
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM employees WHERE " + searchMenu + " = ?");
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement("SELECT * FROM employees WHERE " + searchMenu + " = ?");
             pstmt.setString(1, strValue);
 
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -60,8 +56,8 @@ public class EmployeeDaoImpl {
     public Optional<List<Employees>> findJobHistory(Date startDate, Date endDate) {
         List<Employees> findJobHistoryList = new ArrayList<>();
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * " +
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement("SELECT * " +
                     "FROM employees e ,job_history j  " +
                     "WHERE e.employee_id = j.employee_id AND (j.start_date BETWEEN ? AND ?) AND (j.end_date BETWEEN ? AND ? OR j.end_date IS NULL)");
             pstmt.setDate(1, startDate);
@@ -99,8 +95,8 @@ public class EmployeeDaoImpl {
     public Optional<List<Employees>> loadEmployees() {
         List<Employees> loadEmployeeList = new ArrayList<>();
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM employees");
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement("SELECT * FROM employees");
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -126,11 +122,10 @@ public class EmployeeDaoImpl {
     }
 
     public Optional<Employees> addEmployee(Employees employee) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
+
+        conn = DBUtil.getConnection();
         ResultSet rs = null;
         try {
-            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             String insertSql = "INSERT INTO employees (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission, manager_id, department_id) " +
                     "VALUES (?, ?, ?, ?, ?, now(), ?, ?, ?, ?,?)";
             pstmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
@@ -189,10 +184,8 @@ public class EmployeeDaoImpl {
         return Optional.empty();
     }
     public Optional<Employees> deleteEmployee(int employeeId) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
+         conn = DBUtil.getConnection();
         try {
-            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             String deleteSql = "DELETE FROM employees WHERE employee_id = ?";
             pstmt = conn.prepareStatement(deleteSql);
             pstmt.setInt(1, employeeId);
@@ -215,12 +208,11 @@ public class EmployeeDaoImpl {
         return Optional.empty();
     }
     public Optional<Employees> updateEmployee(Employees employee) {
-        Connection conn = null;
+        conn = DBUtil.getConnection();
         PreparedStatement updateStmt = null;
         PreparedStatement selectStmt = null;
         ResultSet rs = null;
         try {
-            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             String updateSql = "UPDATE employees SET first_name = ?, last_name = ?, email = ?, phone_number = ?, hire_date = ?, job_id = ?, salary = ?, commission = ?, manager_id = ?, department_id = ? WHERE employee_id = ?";
             updateStmt = conn.prepareStatement(updateSql);
             updateStmt.setString(1, employee.getFirst_name());
@@ -280,13 +272,12 @@ public class EmployeeDaoImpl {
     }
 
     public Optional<List<Employees>> updateName(String oldFullName, String newFirstName, String newLastName) {
-        Connection conn = null;
+        conn = DBUtil.getConnection();
         PreparedStatement updateStmt = null;
         PreparedStatement selectStmt = null;
         ResultSet rs = null;
         List<Employees> updatedList = new ArrayList<>();
         try {
-            conn = getConnection();
             String updateSql = "UPDATE employees SET first_name = ?, last_name = ? WHERE CONCAT(first_name, ' ', last_name) = ?";
             updateStmt = conn.prepareStatement(updateSql);
             updateStmt.setString(1, newFirstName);
@@ -348,13 +339,12 @@ public class EmployeeDaoImpl {
             System.out.println("Invalid update field: " + fieldToUpdate);
             return Optional.empty();
         }
-        Connection conn = null;
+        conn = DBUtil.getConnection();
         PreparedStatement updateStmt = null;
         PreparedStatement selectStmt = null;
         ResultSet rs = null;
         List<Employees> updatedList = new ArrayList<>();
         try {
-            conn = getConnection();
             String updateSql = "UPDATE employees SET " + fieldToUpdate + " = ? WHERE " + fieldToUpdate + " = ?";
             updateStmt = conn.prepareStatement(updateSql);
             if (fieldToUpdate.equals("salary") || fieldToUpdate.equals("commission_pct")) {

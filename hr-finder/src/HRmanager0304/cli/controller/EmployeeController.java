@@ -18,7 +18,7 @@ public class EmployeeController {
     private EmployeeService employeeService = new EmployeeServiceImpl();
     private EmployeeIO employeeIO = new EmployeeIO();
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         EmployeeController controller = new EmployeeController();
         controller.run();
     }
