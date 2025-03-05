@@ -1,7 +1,10 @@
 package dto;
 
+import lombok.Data;
+
 import java.sql.Date;
 
+@Data
 public class Job_history {
     int employee_id;
     Date start_date;

@@ -131,4 +131,25 @@ public class Employees {
             return employee;
         }
     }
+
+    //임의설정
+    @Override
+    public String toString() {
+        return "Employees{" +
+                "employee_id=" + employee_id +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", hire_date=" + hire_date +
+                ", job_id='" + job_id + '\'' +
+                ", salary=" + salary +
+                ", commission=" + commission +
+                ", manager_id=" + manager_id +
+                ", department_id=" + department_id +
+                ", newValue='" + newValue + '\'' +
+                ", oldValue='" + oldValue + '\'' +
+                ", updateField='" + updateField + '\'' +
+                '}';
+    }
 }
