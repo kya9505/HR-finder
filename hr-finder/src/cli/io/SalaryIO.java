@@ -1,11 +1,7 @@
 package cli.io;
 
 import util.validation.ConsoleInputValidator;
-
 import java.math.BigDecimal;
-
-// 사용자의 입력받는것 (메인에서 )입력 받는 부분을 메소드로 대체
-
 
 public class SalaryIO {
     private ConsoleInputValidator validator = new ConsoleInputValidator();
@@ -55,5 +51,10 @@ public class SalaryIO {
     // 세금 금액 입력. 세금 금액은 음수가 아니어야 한다.
     public double readTaxAmount() {
         return validator.readValidated("Enter tax amount: ", Double::parseDouble, d -> d >= 0, "Tax amount must be non-negative.");
+    }
+
+    // 오버타임 시간 입력. 오버타임 시간은 음수가 아니어야 한다.
+    public double readOvertimeHours() {
+        return validator.readValidated("Enter overtime hours: ", Double::parseDouble, h -> h >= 0, "Overtime hours must be non-negative.");
     }
 }
