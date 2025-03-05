@@ -1,7 +1,6 @@
+package cli.io;
 
-import java.util.Scanner;
-
-
+import util.validation.ConsoleInputValidator;
 
 import java.math.BigDecimal;
 
