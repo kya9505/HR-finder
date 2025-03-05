@@ -1,6 +1,6 @@
 package service;
 
-import HRmanager0303.dao.EmployeeDaoImpl;
+import dao.EmployeeDaoImpl;
 
 import java.sql.*;
 import java.util.Scanner;
