@@ -122,6 +122,7 @@ public class EmployeeIO {
 
 
     public void printSearchSubmenu1(int count) {
+        if(count == 0) System.out.println("No matching employees found.");
         System.out.println("Total Employees Found: " + count);
     }
 

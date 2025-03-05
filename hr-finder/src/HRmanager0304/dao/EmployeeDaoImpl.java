@@ -1,7 +1,7 @@
 package HRmanager0304.dao;
 
 import HRmanager0304.dto.Employees;
-import java_advanced.src.Quest.dao.DBUtil;
+import HRmanager0304.util.utildemo;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -25,7 +25,7 @@ public class EmployeeDaoImpl {
         List<Employees> findEmployeeList = new ArrayList<>();
 
         try {
-            conn = DBUtil.getConnection();
+            conn = utildemo.getConnection();
             pstmt = conn.prepareStatement("SELECT * FROM employees WHERE " + searchMenu + " = ?");
             pstmt.setString(1, strValue);
 
@@ -95,7 +95,7 @@ public class EmployeeDaoImpl {
     public Optional<List<Employees>> loadEmployees() {
         List<Employees> loadEmployeeList = new ArrayList<>();
         try {
-            conn = DBUtil.getConnection();
+            conn = utildemo.getConnection();
             pstmt = conn.prepareStatement("SELECT * FROM employees");
 
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -123,7 +123,7 @@ public class EmployeeDaoImpl {
 
     public Optional<Employees> addEmployee(Employees employee) {
 
-        conn = DBUtil.getConnection();
+        conn = utildemo.getConnection();
         ResultSet rs = null;
         try {
             String insertSql = "INSERT INTO employees (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission, manager_id, department_id) " +
@@ -208,7 +208,7 @@ public class EmployeeDaoImpl {
         return Optional.empty();
     }
     public Optional<Employees> updateEmployee(Employees employee) {
-        conn = DBUtil.getConnection();
+        conn = utildemo.getConnection();
         PreparedStatement updateStmt = null;
         PreparedStatement selectStmt = null;
         ResultSet rs = null;
@@ -272,7 +272,7 @@ public class EmployeeDaoImpl {
     }
 
     public Optional<List<Employees>> updateName(String oldFullName, String newFirstName, String newLastName) {
-        conn = DBUtil.getConnection();
+        conn = utildemo.getConnection();
         PreparedStatement updateStmt = null;
         PreparedStatement selectStmt = null;
         ResultSet rs = null;
@@ -339,7 +339,7 @@ public class EmployeeDaoImpl {
             System.out.println("Invalid update field: " + fieldToUpdate);
             return Optional.empty();
         }
-        conn = DBUtil.getConnection();
+        conn = utildemo.getConnection();
         PreparedStatement updateStmt = null;
         PreparedStatement selectStmt = null;
         ResultSet rs = null;

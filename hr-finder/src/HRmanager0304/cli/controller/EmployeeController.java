@@ -218,6 +218,7 @@ public class EmployeeController {
             default:
                 System.out.println("Invalid option in Search menu.");
         }
+        if(findList == null)
 
         System.out.println("------ Search SubeMenu ------");
         System.out.println("1.Number of employees searched ");

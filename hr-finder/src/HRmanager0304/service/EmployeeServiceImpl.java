@@ -17,8 +17,6 @@ public class EmployeeServiceImpl implements EmployeeService{
     // 이름으로 검색 - last name 검색
     public List<Employees> searchByLastname(String Last_name) {
         Optional<List<Employees>> searchList = employeeDao.findEmployee("last_name", Last_name);
-
-
         return searchList.orElse(new ArrayList<>());
     }
 
@@ -33,17 +31,13 @@ public class EmployeeServiceImpl implements EmployeeService{
     // 직업 검색
     public List<Employees> searchByJobId(String job_id) {
         Optional<List<Employees>> searchList = employeeDao.findEmployee("job_id", job_id);
-
-
         return searchList.orElse(new ArrayList<>());
     }
 
     // 고용일/근속기간 검색 - 고용일 검색
     public List<Employees> searchByHireDate(Date hire_date) {
         java.sql.Date sqlHireDate = new java.sql.Date(hire_date.getTime());
-
         Optional<List<Employees>> searchList = employeeDao.findEmployee("hire_date", sqlHireDate);
-
         return searchList.orElse(new ArrayList<>());
     }
 
