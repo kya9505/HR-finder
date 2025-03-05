@@ -56,7 +56,7 @@ public class EmployeeDaoImpl {
     public Optional<List<Employees>> findJobHistory(Date startDate, Date endDate) {
         List<Employees> findJobHistoryList = new ArrayList<>();
         try {
-            conn = DBUtil.getConnection();
+            conn = utildemo.getConnection();
             pstmt = conn.prepareStatement("SELECT * " +
                     "FROM employees e ,job_history j  " +
                     "WHERE e.employee_id = j.employee_id AND (j.start_date BETWEEN ? AND ?) AND (j.end_date BETWEEN ? AND ? OR j.end_date IS NULL)");
@@ -184,7 +184,7 @@ public class EmployeeDaoImpl {
         return Optional.empty();
     }
     public Optional<Employees> deleteEmployee(int employeeId) {
-         conn = DBUtil.getConnection();
+         conn = utildemo.getConnection();
         try {
             String deleteSql = "DELETE FROM employees WHERE employee_id = ?";
             pstmt = conn.prepareStatement(deleteSql);
