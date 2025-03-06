@@ -89,14 +89,13 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
-    public double getIncreasedAnnualSalary(int employeeId, char performanceGrade) {
+    public double getIncreasedAnnualSalary(int employeeId, char performaceGrade) {
         Optional<Employees> optEmp = findEmployee(employeeId);
         if (optEmp.isPresent()) {
             double annualSalary = optEmp.get().getSalary().doubleValue() * 12;
-            // 성과 등급은 SalaryCalculator를 통해 산출
-            char grade = SalaryCalculator.getPerfGrade(optEmp.get());
+            // 성과 등급은 SalaryCalculator를 통해 산출));
             double raisePercentage;
-            switch (grade) {
+            switch (performaceGrade) {
                 case 'S':
                     raisePercentage = 0.15;
                     break;
@@ -113,7 +112,7 @@ public class SalaryServiceImpl implements SalaryService {
                     raisePercentage = 0.01;
                     break;
                 default:
-                    System.out.println("Invalid grade. Please check the employee's performance grade again.");
+                    System.out.println("Invalid performaceGrade. Please check the employee's performance performaceGrade again.");
                     return annualSalary;
             }
             return annualSalary * (1 + raisePercentage);
