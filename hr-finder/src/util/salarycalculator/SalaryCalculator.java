@@ -38,21 +38,21 @@ public class SalaryCalculator {
         double localTax = tax * 0.1;
         return tax + localTax;
     }
-
-    // 성과 등급 산출 (Employees의 perfScore 필드를 기반으로)
-    public static char getPerfGrade(Employees emp) {
-        int score = emp.getPerfScore();
-        int scoreOneDigit = score / 10;
-        if (scoreOneDigit >= 10) return 'S';
-        switch (scoreOneDigit) {
-            case 9:
-                return (score >= 95) ? 'S' : 'A';
-            case 8:
-                return 'B';
-            case 7:
-                return (score >= 75) ? 'B' : 'C';
-            default:
-                return 'D';
-        }
-    }
+//
+//    // 성과 등급 산출 (Employees의 perfScore 필드를 기반으로)
+//    public static char getPerfGrade(Employees emp) {
+//        int score = emp.getPerfScore();
+//        int scoreOneDigit = score / 10;
+//        if (scoreOneDigit >= 10) return 'S';
+//        switch (scoreOneDigit) {
+//            case 9:
+//                return (score >= 95) ? 'S' : 'A';
+//            case 8:
+//                return 'B';
+//            case 7:
+//                return (score >= 75) ? 'B' : 'C';
+//            default:
+//                return 'D';
+//        }
+//    }
 }
