@@ -1,4 +1,4 @@
-
+use hrdb;
 drop table if exists eventBackupTbl;
 create table eventBackupTbl(
                                backup_id int AUTO_INCREMENT PRIMARY KEY,
@@ -10,8 +10,6 @@ create table eventBackupTbl(
 );
 --
 -- employeeInsertTrg
-drop trigger employeeInsertTrg;
-
 delimiter //
 create trigger employeeInsertTrg
     AFTER insert
@@ -119,10 +117,7 @@ DELIMITER ;
 
 UPDATE employees
 SET email = 'ddd', phone_number = 'ssdq'
-WHERE employee_id = 998;  -- 임의의 employee_id (예: 101)
-
-use hrdb;
-insert into employees values (998,'sss','ddd','ddd','ddd','2025-01-01','AD_PRES',30.00,0.30,100,80);
+WHERE employee_id = 100;  -- 임의의 employee_id (예: 101)
 
 SELECT
     backup_id,
@@ -132,3 +127,5 @@ SELECT
     JSON_PRETTY(after_change) AS after_change,
     event_time
 FROM eventBackupTbl;
+
+
