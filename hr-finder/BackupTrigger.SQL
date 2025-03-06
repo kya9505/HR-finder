@@ -117,6 +117,7 @@ VALUES ('employees', 'UPDATE', beforeJson, afterJson);
 END; //
 DELIMITER ;
 
+
 -- departmentsInsertTrg
 DELIMITER //
 CREATE TRIGGER departmentsInsertTrg
@@ -190,7 +191,7 @@ BEGIN
     INSERT INTO eventBackupTbl (table_name, event_type, before_change, after_change)
     VALUES ('departments', 'UPDATE', beforeJson, afterJson);
 END;
-//
+
 DELIMITER ;
 
 
@@ -198,9 +199,14 @@ use hrdb;
 insert into employees values (998,'sss','ddd','ddd','ddd','2025-01-01','AD_PRES',30.00,0.30,100,80);
 insert into departments values (45,'ddd',100,1700);
 
+
 UPDATE employees
 SET email = 'ddd', phone_number = 'ssdq'
 WHERE employee_id = 998;  -- 임의의 employee_id (예: 101)
+
+
+use hrdb;
+insert into employees values (998,'sss','ddd','ddd','ddd','2025-01-01','AD_PRES',30.00,0.30,100,80);
 
 UPDATE departments
 SET department_name = 'sss'
