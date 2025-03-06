@@ -91,6 +91,7 @@ public class EmployeeController {
         String first_name = employeeIO.readFirstName();
         String last_name = employeeIO.readLastName();
         String email = employeeIO.readEmail();
+        String phone_number = employeeIO.readPhone_number();
         Date hire_date = employeeIO.readHireDate();
         String job_id = employeeIO.readJobId();
         BigDecimal salary = employeeIO.readSalary();
@@ -103,10 +104,11 @@ public class EmployeeController {
                 .first_name(first_name)
                 .last_name(last_name)
                 .email(email)
+                .phone_number(phone_number)
                 .hire_date(hire_date)
                 .job_id(job_id)
                 .salary(salary)
-                .commission(commission_pct)
+                .commission_pct(commission_pct)
                 .manager_id(manager_id)
                 .department_id(department_id)
                 .build();
@@ -119,6 +121,7 @@ public class EmployeeController {
         String first_name = employeeIO.readFirstName();
         String last_name = employeeIO.readLastName();
         String email = employeeIO.readEmail();
+        String phone_number = employeeIO.readPhone_number();
         Date hire_date = employeeIO.readHireDate();
         String job_id = employeeIO.readJobId();
         BigDecimal salary = employeeIO.readSalary();
@@ -131,10 +134,11 @@ public class EmployeeController {
                 .first_name(first_name)
                 .last_name(last_name)
                 .email(email)
+                .phone_number(phone_number)
                 .hire_date(hire_date)
                 .job_id(job_id)
                 .salary(salary)
-                .commission(commission_pct)
+                .commission_pct(commission_pct)
                 .manager_id(manager_id)
                 .department_id(department_id)
                 .build();
@@ -158,6 +162,7 @@ public class EmployeeController {
                 break;
             case 2:
                 System.out.println("[Update] Modify Name selected.");
+                System.out.print("Please Enter Full Name to be Modified :");
                 String oldFUllName = employeeIO.readString();
                 String newFirstName = employeeIO.readFirstName();
                 String newLastName = employeeIO.readLastName();
@@ -165,9 +170,12 @@ public class EmployeeController {
                 break;
             case 3:
                 System.out.println("[Update] Select Content to Modify selected.");
+                System.out.println("Please Enter Field to be Modified :");
                 String fieldToUpdate = employeeIO.readString();
-                String oldValue = employeeIO.readString();
+                System.out.println("Please Enter newValue");
                 String newValue = employeeIO.readString();
+                System.out.println("Please Enter oldValue");
+                String oldValue = employeeIO.readString();
                 employeeService.updateByChoice(fieldToUpdate, newValue, oldValue);
                 break;
             default:
