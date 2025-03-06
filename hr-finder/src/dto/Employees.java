@@ -19,7 +19,7 @@ public class Employees {
     BigDecimal commission_pct;
     int manager_id;
     int department_id;
-    private int perfScore; // 성과 평가 점수
+    private int perfScore; // 성과 평가 점수git
     String newValue;
     String oldValue;
     String updateField;
