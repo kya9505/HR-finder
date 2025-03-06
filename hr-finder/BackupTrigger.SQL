@@ -8,7 +8,7 @@ create table eventBackupTbl(
                                after_change JSON ,
                                event_time datetime default now()
 );
-
+--
 -- employeeInsertTrg
 delimiter //
 create trigger employeeInsertTrg
