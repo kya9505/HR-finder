@@ -1,6 +1,8 @@
 package dto;
 
+
 import lombok.Data;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -14,10 +16,10 @@ public class Employees {
     Date hire_date;
     String job_id;
     BigDecimal salary;
-    BigDecimal commission;
+    BigDecimal commission_pct;
     int manager_id;
     int department_id;
-
+    private int perfScore; // 성과 평가 점수
     String newValue;
     String oldValue;
     String updateField;
@@ -35,9 +37,10 @@ public class Employees {
         private Date hire_date;
         private String job_id;
         private BigDecimal salary;
-        private BigDecimal commission = BigDecimal.ZERO;
+        private BigDecimal commission_pct = BigDecimal.ZERO;
         private int manager_id = 0;
         private int department_id = 0;
+        private int perfScore;
         private String updateField;
         private String newValue;
         private String oldValue;
@@ -82,8 +85,8 @@ public class Employees {
             return this;
         }
 
-        public EmployeesBuilder commission(BigDecimal commission) {
-            this.commission = commission;
+        public EmployeesBuilder commission_pct(BigDecimal commission_pct) {
+            this.commission_pct = commission_pct;
             return this;
         }
 
@@ -94,6 +97,10 @@ public class Employees {
 
         public EmployeesBuilder department_id(int department_id) {
             this.department_id = department_id;
+            return this;
+        }
+        public EmployeesBuilder perfScore(int perfScore) {
+            this.perfScore = perfScore;
             return this;
         }
 
@@ -122,9 +129,10 @@ public class Employees {
             employee.setHire_date(this.hire_date);
             employee.setJob_id(this.job_id);
             employee.setSalary(this.salary);
-            employee.setCommission(this.commission);
+            employee.setCommission_pct(this.commission_pct);
             employee.setManager_id(this.manager_id);
             employee.setDepartment_id(this.department_id);
+            employee.setPerfScore(this.perfScore);
             employee.setUpdateField(this.updateField);
             employee.setNewValue(this.newValue);
             employee.setOldValue(this.oldValue);
@@ -144,9 +152,10 @@ public class Employees {
                 ", hire_date=" + hire_date +
                 ", job_id='" + job_id + '\'' +
                 ", salary=" + salary +
-                ", commission=" + commission +
+                ", commission_pct=" + commission_pct +
                 ", manager_id=" + manager_id +
                 ", department_id=" + department_id +
+                ", perfScore=" + perfScore +
                 ", newValue='" + newValue + '\'' +
                 ", oldValue='" + oldValue + '\'' +
                 ", updateField='" + updateField + '\'' +

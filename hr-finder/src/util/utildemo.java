@@ -10,7 +10,7 @@ public class utildemo {
     private static ResourceBundle bundle;
 
     static {
-        bundle = ResourceBundle.getBundle("src.cofing.dbinfo");
+        bundle = ResourceBundle.getBundle("config.dbinfo");
         try {
             Class.forName(bundle.getString("driver")); // db 드라이버 조회
         } catch (
