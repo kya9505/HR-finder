@@ -90,6 +90,9 @@ public class ConsoleInputValidator implements Validator {
         }
     }
 
+    public int readValidatedIntNoMax(String prompt, int min, String errorMessage) {
+        return readValidated(prompt, Integer::parseInt, i -> i >= min, errorMessage);
+    }
 
 }
 

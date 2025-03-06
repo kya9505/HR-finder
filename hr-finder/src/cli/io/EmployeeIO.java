@@ -16,7 +16,7 @@ public class EmployeeIO {
     private Scanner scanner = new Scanner(System.in);
 
     public int readEmployeeId() {
-        return validator.readValidatedInt("employee_id(int) : ", 0, 999, "Please Check Employee ID");
+        return validator.readValidatedIntNoMax("employee_id(int) : ", 0, "Please Check Employee ID");
     }
 
     public String readString() {
@@ -33,6 +33,10 @@ public class EmployeeIO {
 
     public String readLastName() {
         return validator.readValidatedVarchar("last_name(max: 25) : ", 25, "Please Check Last Name");
+    }
+
+    public String readPhone_number() {
+        return validator.readValidatedVarchar("phone_number(max: 20) : ", 20, "Please Check Phone Number");
     }
 
     public String readEmail() {
@@ -65,11 +69,11 @@ public class EmployeeIO {
     }
 
     public int readManagerId() {
-        return validator.readValidatedInt("manager_id(int) : ", 0, 10, "Please Check Manager ID");
+        return validator.readValidatedIntNoMax("manager_id(int) : ", 0,  "Please Check Manager ID");
     }
 
     public int readDepartmentId() {
-        return validator.readValidatedInt("department_id(int) : ", 0, 10, "Please Check Department ID");
+        return validator.readValidatedIntNoMax("department_id(int) : ", 0,  "Please Check Department ID");
     }
 
     public Date readStartDate() {

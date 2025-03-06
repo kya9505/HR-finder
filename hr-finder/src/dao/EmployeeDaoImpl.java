@@ -37,7 +37,7 @@ public class EmployeeDaoImpl {
                             .salary(rs.getBigDecimal("salary"));
                     builder.first_name(rs.getString("first_name"));
                     builder.phone_number(rs.getString("phone_number"));
-                    builder.commission(rs.getBigDecimal("commission_pct"));
+                    builder.commission_pct(rs.getBigDecimal("commission_pct"));
                     builder.manager_id(rs.getInt("manager_id"));
                     builder.department_id(rs.getInt("department_id"));
                     findEmployeeList.add(builder.build());
@@ -73,7 +73,7 @@ public class EmployeeDaoImpl {
                             .salary(rs.getBigDecimal("salary"));
                     builder.first_name(rs.getString("first_name"));
                     builder.phone_number(rs.getString("phone_number"));
-                    builder.commission(rs.getBigDecimal("commission_pct"));
+                    builder.commission_pct(rs.getBigDecimal("commission_pct"));
                     builder.manager_id(rs.getInt("manager_id"));
                     builder.department_id(rs.getInt("department_id"));
                     findJobHistoryList.add(builder.build());
@@ -106,7 +106,7 @@ public class EmployeeDaoImpl {
                             .salary(rs.getBigDecimal("salary"));
                     builder.first_name(rs.getString("first_name"));
                     builder.phone_number(rs.getString("phone_number"));
-                    builder.commission(rs.getBigDecimal("commission_pct"));
+                    builder.commission_pct(rs.getBigDecimal("commission_pct"));
                     builder.manager_id(rs.getInt("manager_id"));
                     builder.department_id(rs.getInt("department_id"));
                     loadEmployeeList.add(builder.build());
@@ -123,7 +123,7 @@ public class EmployeeDaoImpl {
         conn = utildemo.getConnection();
         ResultSet rs = null;
         try {
-            String insertSql = "INSERT INTO employees (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission, manager_id, department_id) " +
+            String insertSql = "INSERT INTO employees (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission_pct, manager_id, department_id) " +
                     "VALUES (?, ?, ?, ?, ?, now(), ?, ?, ?, ?,?)";
             pstmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, employee.getEmployee_id());
@@ -133,7 +133,7 @@ public class EmployeeDaoImpl {
             pstmt.setString(5, employee.getPhone_number());
             pstmt.setString(6, employee.getJob_id());
             pstmt.setBigDecimal(7, employee.getSalary());
-            pstmt.setBigDecimal(8, employee.getCommission());
+            pstmt.setBigDecimal(8, employee.getCommission_pct());
             pstmt.setInt(9, employee.getManager_id());
             pstmt.setInt(10, employee.getDepartment_id());
 
@@ -156,7 +156,7 @@ public class EmployeeDaoImpl {
                             .hire_date(rs.getDate("hire_date"))
                             .job_id(rs.getString("job_id"))
                             .salary(rs.getBigDecimal("salary"))
-                            .commission(rs.getBigDecimal("commission"))
+                            .commission_pct(rs.getBigDecimal("commission_pct"))
                             .manager_id(rs.getInt("manager_id"))
                             .department_id(rs.getInt("department_id"))
                             .build();
@@ -210,7 +210,7 @@ public class EmployeeDaoImpl {
         PreparedStatement selectStmt = null;
         ResultSet rs = null;
         try {
-            String updateSql = "UPDATE employees SET first_name = ?, last_name = ?, email = ?, phone_number = ?, hire_date = ?, job_id = ?, salary = ?, commission = ?, manager_id = ?, department_id = ? WHERE employee_id = ?";
+            String updateSql = "UPDATE employees SET first_name = ?, last_name = ?, email = ?, phone_number = ?, hire_date = ?, job_id = ?, salary = ?, commission_pct = ?, manager_id = ?, department_id = ? WHERE employee_id = ?";
             updateStmt = conn.prepareStatement(updateSql);
             updateStmt.setString(1, employee.getFirst_name());
             updateStmt.setString(2, employee.getLast_name());
@@ -219,7 +219,7 @@ public class EmployeeDaoImpl {
             updateStmt.setDate(5, employee.getHire_date());
             updateStmt.setString(6, employee.getJob_id());
             updateStmt.setBigDecimal(7, employee.getSalary());
-            updateStmt.setBigDecimal(8, employee.getCommission());
+            updateStmt.setBigDecimal(8, employee.getCommission_pct());
             updateStmt.setInt(9, employee.getManager_id());
             updateStmt.setInt(10, employee.getDepartment_id());
             updateStmt.setInt(11, employee.getEmployee_id());
@@ -240,7 +240,7 @@ public class EmployeeDaoImpl {
                             .hire_date(rs.getDate("hire_date"))
                             .job_id(rs.getString("job_id"))
                             .salary(rs.getBigDecimal("salary"))
-                            .commission(rs.getBigDecimal("commission"))
+                            .commission_pct(rs.getBigDecimal("commission_pct"))
                             .manager_id(rs.getInt("manager_id"))
                             .department_id(rs.getInt("department_id"))
                             .build();
@@ -297,7 +297,7 @@ public class EmployeeDaoImpl {
                             .hire_date(rs.getDate("hire_date"))
                             .job_id(rs.getString("job_id"))
                             .salary(rs.getBigDecimal("salary"))
-                            .commission(rs.getBigDecimal("commission_pct"))
+                            .commission_pct(rs.getBigDecimal("commission_pct"))
                             .manager_id(rs.getInt("manager_id"))
                             .department_id(rs.getInt("department_id"));
                     updatedList.add(builder.build());
@@ -376,7 +376,7 @@ public class EmployeeDaoImpl {
                             .hire_date(rs.getDate("hire_date"))
                             .job_id(rs.getString("job_id"))
                             .salary(rs.getBigDecimal("salary"))
-                            .commission(rs.getBigDecimal("commission_pct"))
+                            .commission_pct(rs.getBigDecimal("commission_pct"))
                             .manager_id(rs.getInt("manager_id"))
                             .department_id(rs.getInt("department_id"));
                     updatedList.add(builder.build());
