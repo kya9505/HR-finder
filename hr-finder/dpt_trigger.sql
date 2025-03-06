@@ -1,4 +1,4 @@
--- departmentsInsertTrg
+git -- departmentsInsertTrg
 DELIMITER //
 CREATE TRIGGER departmentsInsertTrg
     AFTER INSERT ON departments
