@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 public class SalaryIO {
     private ConsoleInputValidator validator = new ConsoleInputValidator();
 
-    // 직원 ID 입력. 직원 ID는 0부터 10 사이여야 한다.
+    // 직원 ID 입력. 직원 ID는 0부터 9999
     public int readEmployeeId() {
-        return validator.readValidatedInt("employee_id(int) : ", 0, 10, "Please Check Employee ID.");
+        return validator.readValidatedInt("employee_id(int) : ", 0, 9999, "Please Check Employee ID.");
     }
 
     // 회사 예산 입력. 예산은 음수가 아니어야 한다.
