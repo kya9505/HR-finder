@@ -1,6 +1,8 @@
 package dto;
 
+
 import lombok.Data;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -17,7 +19,7 @@ public class Employees {
     BigDecimal commission_pct;
     int manager_id;
     int department_id;
-
+    private int perfScore; // 성과 평가 점수
     String newValue;
     String oldValue;
     String updateField;
@@ -38,6 +40,7 @@ public class Employees {
         private BigDecimal commission_pct = BigDecimal.ZERO;
         private int manager_id = 0;
         private int department_id = 0;
+        private int perfScore;
         private String updateField;
         private String newValue;
         private String oldValue;
@@ -96,6 +99,10 @@ public class Employees {
             this.department_id = department_id;
             return this;
         }
+        public EmployeesBuilder perfScore(int perfScore) {
+            this.perfScore = perfScore;
+            return this;
+        }
 
         public EmployeesBuilder updateField(String updateField) {
             this.updateField = updateField;
@@ -125,6 +132,7 @@ public class Employees {
             employee.setCommission_pct(this.commission_pct);
             employee.setManager_id(this.manager_id);
             employee.setDepartment_id(this.department_id);
+            employee.setPerfScore(this.perfScore);
             employee.setUpdateField(this.updateField);
             employee.setNewValue(this.newValue);
             employee.setOldValue(this.oldValue);
@@ -147,6 +155,7 @@ public class Employees {
                 ", commission_pct=" + commission_pct +
                 ", manager_id=" + manager_id +
                 ", department_id=" + department_id +
+                ", perfScore=" + perfScore +
                 ", newValue='" + newValue + '\'' +
                 ", oldValue='" + oldValue + '\'' +
                 ", updateField='" + updateField + '\'' +
