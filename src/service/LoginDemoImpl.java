@@ -1,26 +1,32 @@
 package service;
 
 import util.utildemo;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Scanner;
 
 public class LoginDemoImpl {
+
     public static boolean login() {
         Scanner scanner = new Scanner(System.in);
+
         System.out.print("Please enter your employee ID : ");
         String employeeId = scanner.nextLine();
+
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean isAdmin = false;
+
         try {
             conn = utildemo.getConnection();
-            String sql = "SELECT DISTINCT e1.employee_id FROM employees e1 JOIN employees e2 ON e1.employee_id = e2.manager_id WHERE e1.employee_id = ?";
+            String sql = "SELECT DISTINCT e1.employee_id " +
+                    "FROM employees e1 " +
+                    "JOIN employees e2 ON e1.employee_id = e2.manager_id " +
+                    "WHERE e1.employee_id = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, employeeId);
             rs = pstmt.executeQuery();
+
             if (rs.next()) {
                 System.out.print("Please enter your Password : ");
                 String inputPassword = scanner.nextLine();
