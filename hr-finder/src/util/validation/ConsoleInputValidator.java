@@ -28,19 +28,12 @@ public class ConsoleInputValidator implements Validator {
     public int readValidatedInt(String prompt, int min, int max, String errorMessage) {
         return readValidated(prompt, Integer::parseInt, i -> i >= min && i <= max, errorMessage);
     }
-    // int korean = readValidatedInt("employee_id : ", 0, 10);
 
     public String readValidatedVarchar(String prompt, int maxLength, String errorMessage) {
         return readValidated(prompt, s -> s, s -> s.length() <= maxLength, errorMessage);
     }
 
-    // String name = readValidatedVarchar("이름 (최대 20자): ", 20, "20자 이하로 입력하세요.");
-
-    public BigDecimal readValidatedBigDecimal(String prompt,
-                                              BigDecimal min,
-                                              BigDecimal max,
-                                              int scale,
-                                              String errorMessage) {
+    public BigDecimal readValidatedBigDecimal(String prompt, BigDecimal min, BigDecimal max, int scale, String errorMessage) {
         return readValidated(prompt, BigDecimal::new,
                 bd -> bd.scale() == scale && bd.compareTo(min) >= 0 && bd.compareTo(max) <= 0,
                 errorMessage);
@@ -90,6 +83,20 @@ public class ConsoleInputValidator implements Validator {
         }
     }
 
-
+    public Integer readValidatedIntNoMax(String prompt, int min, String errorMessage) {
+        System.out.print(prompt);
+        String input = scanner.nextLine();
+        if (input.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            Integer value = Integer.parseInt(input);
+            if (value < min) {
+                throw new IllegalArgumentException(errorMessage);
+            }
+            return value;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
 }
-

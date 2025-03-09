@@ -5,16 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-// validator같은 공통된 기능을 제공하는.. 예외처리도 ?
 public class utildemo {
     private static ResourceBundle bundle;
 
     static {
-        bundle = ResourceBundle.getBundle("src.cofing.dbinfo");
+        bundle = ResourceBundle.getBundle("config.dbinfo");
         try {
-            Class.forName(bundle.getString("driver")); // db 드라이버 조회
-        } catch (
-                ClassNotFoundException e) {
+            Class.forName(bundle.getString("driver"));
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -31,4 +29,3 @@ public class utildemo {
         }
     }
 }
-    

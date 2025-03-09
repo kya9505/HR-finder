@@ -25,41 +25,83 @@ public class DepartmentDaoImpl implements DepartmentDao {
             } else {
                 pstmt.setInt(3, manager_id);
             }
+
             Integer location_id = departments.getLocation_id();
             if (location_id == null) {
                 pstmt.setNull(4, Types.INTEGER);
             } else {
                 pstmt.setInt(4, location_id);
             }
+
             int cnt = pstmt.executeUpdate();
             if (cnt > 0) {
-                try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 String selectSql = "SELECT * FROM departments WHERE department_id = ?";
                 pstmt = conn.prepareStatement(selectSql);
                 pstmt.setInt(1, departments.getDepartment_id());
                 rs = pstmt.executeQuery();
                 if (rs.next()) {
-                    Integer managerId = (Integer) rs.getObject("manager_id");
-                    Integer locationId = (Integer) rs.getObject("location_id");
+                    Integer newManagerId = null;
+                    Object obj = rs.getObject("manager_id");
+                    if (obj != null) {
+                        if (obj instanceof Long) {
+                            newManagerId = ((Long) obj).intValue();
+                        } else if (obj instanceof Integer) {
+                            newManagerId = (Integer) obj;
+                        }
+                    }
+                    Integer newLocationId = null;
+                    obj = rs.getObject("location_id");
+                    if (obj != null) {
+                        if (obj instanceof Long) {
+                            newLocationId = ((Long) obj).intValue();
+                        } else if (obj instanceof Integer) {
+                            newLocationId = (Integer) obj;
+                        }
+                    }
+
                     Departments inserted = Departments.builder()
                             .department_id(rs.getInt("department_id"))
                             .department_name(rs.getString("department_name"))
-                            .manager_id(managerId)
-                            .location_id(locationId)
+                            .manager_id(newManagerId)
+                            .location_id(newLocationId)
                             .build();
                     return Optional.of(inserted);
                 }
             } else {
-                System.out.println("Failed to add department with id: " + departments.getDepartment_id());
+                System.out.println("Failed to add departments information for department_id: " + departments.getDepartment_id());
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBConnectionManager.closeQuietly(rs, pstmt, conn);
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return Optional.empty();
     }
-
     @Override
     public int countEmployeesByDepartment(int department_id) {
         Connection conn = null;
@@ -179,7 +221,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
             updateStmt.setInt(2, department_id);
             int cnt = updateStmt.executeUpdate();
             if (cnt > 0) {
-                System.out.println("Successfully updated manager_id for department id: " + department_id);
+                System.out.println("Successfully updated departments with manager_id: " + manager_id);
                 String selectSql = "SELECT * FROM departments WHERE department_id = ?";
                 selectStmt = conn.prepareStatement(selectSql);
                 selectStmt.setInt(1, department_id);
@@ -194,22 +236,58 @@ public class DepartmentDaoImpl implements DepartmentDao {
                             newManagerId = (Integer) obj;
                         }
                     }
+                    Integer newLocationId = null;
+                    obj = rs.getObject("location_id");
+                    if (obj != null) {
+                        if (obj instanceof Long) {
+                            newLocationId = ((Long) obj).intValue();
+                        } else if (obj instanceof Integer) {
+                            newLocationId = (Integer) obj;
+                        }
+                    }
+
                     Departments department = Departments.builder()
                             .department_id(rs.getInt("department_id"))
                             .department_name(rs.getString("department_name"))
                             .manager_id(newManagerId)
-                            .location_id(rs.getInt("location_id"))
+                            .location_id(newLocationId)
                             .build();
                     return Optional.of(department);
                 }
             } else {
-                System.out.println("No department updated for id: " + department_id);
+                System.out.println("No department record updated for department_id: " + department_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBConnectionManager.closeQuietly(rs, updateStmt, conn);
-            DBConnectionManager.closeQuietly(null, selectStmt, null);
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (updateStmt != null) {
+                try {
+                    updateStmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (selectStmt != null) {
+                try {
+                    selectStmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return Optional.empty();
     }

@@ -5,115 +5,109 @@ import dto.Employees;
 import java.util.*;
 import static util.validation.ConsoleInputValidator.validateFieldValue;
 
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
 
-    // 사원 번호를 기준으로 검색
+    @Override
     public List<Employees> searchByEmpId(int employee_id) {
         Optional<List<Employees>> searchList = employeeDao.findEmployee("employee_id", employee_id);
         return searchList.orElse(new ArrayList<>());
     }
 
-    // 이름으로 검색 - last name 검색
+    @Override
     public List<Employees> searchByLastname(String Last_name) {
         Optional<List<Employees>> searchList = employeeDao.findEmployee("last_name", Last_name);
         return searchList.orElse(new ArrayList<>());
     }
 
-    // 이름 검색 - first name 검색
+    @Override
     public List<Employees> searchByFirstname(String First_name) {
         Optional<List<Employees>> searchList = employeeDao.findEmployee("first_name", First_name);
-
-
         return searchList.orElse(new ArrayList<>());
     }
 
-    // 직업 검색
+    @Override
     public List<Employees> searchByJobId(String job_id) {
         Optional<List<Employees>> searchList = employeeDao.findEmployee("job_id", job_id);
         return searchList.orElse(new ArrayList<>());
     }
 
-    // 고용일/근속기간 검색 - 고용일 검색
+    @Override
     public List<Employees> searchByHireDate(Date hire_date) {
         java.sql.Date sqlHireDate = new java.sql.Date(hire_date.getTime());
         Optional<List<Employees>> searchList = employeeDao.findEmployee("hire_date", sqlHireDate);
         return searchList.orElse(new ArrayList<>());
     }
 
-    // 고용일/근속기간 검색 - 근무기간 검색 : job_history
+    @Override
     public List<Employees> searchByEmploymentDuration(Date startDate, Date endDate) {
         java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
-
         Optional<List<Employees>> searchList = employeeDao.findJobHistory(sqlStartDate, sqlEndDate);
-
         return searchList.orElse(new ArrayList<>());
     }
 
-    public int searchSubMenu1(List<Employees> searchList){
+    @Override
+    public int searchSubMenu1(List<Employees> searchList) {
         return searchList.size();
     }
 
-    public  List<Employees> searchSubMenu2(List<Employees> searchList){
+    @Override
+    public List<Employees> searchSubMenu2(List<Employees> searchList) {
         return searchList;
     }
 
-    // sort : 사원번호를 기준으로 정렬
+    @Override
     public List<Employees> sortByEmpId() {
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployees();
-
         sortEmployeeList.ifPresentOrElse(
-                list ->  {list.sort(Comparator.comparing(Employees::getEmployee_id));},
+                list -> list.sort(Comparator.comparing(Employees::getEmployee_id)),
                 () -> System.out.println("No employees found.")
         );
         return sortEmployeeList.orElse(new ArrayList<>());
     }
 
-    // sort : 이름 기준으로 정렬
+    @Override
     public List<Employees> sortByName() {
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployees();
-
         sortEmployeeList.ifPresentOrElse(
-                list -> {list.sort(Comparator.comparing(Employees::getFirst_name)
-                        .thenComparing(Employees::getLast_name));},
+                list -> list.sort(Comparator.comparing(Employees::getFirst_name)
+                        .thenComparing(Employees::getLast_name)),
                 () -> System.out.println("No employees found.")
         );
-
         return sortEmployeeList.orElse(new ArrayList<>());
     }
 
-    // sort : 입사일 기준으로 정렬
+    @Override
     public List<Employees> sortByJHireDate() {
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployees();
-
         sortEmployeeList.ifPresentOrElse(
-                list -> {list.sort(Comparator.comparing(Employees::getHire_date));},
+                list -> list.sort(Comparator.comparing(Employees::getHire_date)),
                 () -> System.out.println("No employees found.")
         );
         return sortEmployeeList.orElse(new ArrayList<>());
     }
 
-    // sort : 사원번호를 기준으로 정렬
+    @Override
     public List<Employees> sortByJobId() {
         Optional<List<Employees>> sortEmployeeList = employeeDao.loadEmployees();
-
         sortEmployeeList.ifPresentOrElse(
-                list -> {list.sort(Comparator.comparing(Employees::getJob_id));},
+                list -> list.sort(Comparator.comparing(Employees::getJob_id)),
                 () -> System.out.println("No employees found.")
         );
         return sortEmployeeList.orElse(new ArrayList<>());
     }
 
-    //true 면 오름차순 /fale면 역순
+    @Override
     public List<Employees> sortEmployees(List<Employees> sortList, int choiceSubMenu) {
-        if (choiceSubMenu ==1 ) {
+        if (choiceSubMenu == 1) {
             return sortList;
         } else {
             Collections.reverse(sortList);
         }
         return sortList;
     }
+
     @Override
     public List<Employees> addEmployee(Employees employee) {
         var insertedEmployee = employeeDao.addEmployee(employee);
@@ -173,7 +167,6 @@ public class EmployeeServiceImpl implements EmployeeService{
             System.out.println("Invalid new value for field: " + fieldToUpdate);
             return Collections.emptyList();
         }
-
         var updatedEmployees = employeeDao.updateByChoice(fieldToUpdate, oldValue, newValue);
         updatedEmployees.ifPresentOrElse(
                 list -> {
@@ -185,4 +178,3 @@ public class EmployeeServiceImpl implements EmployeeService{
         return updatedEmployees.orElse(Collections.emptyList());
     }
 }
-

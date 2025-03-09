@@ -1,6 +1,7 @@
 package dto;
 
 import lombok.Data;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -14,10 +15,10 @@ public class Employees {
     Date hire_date;
     String job_id;
     BigDecimal salary;
-    BigDecimal commission;
+    BigDecimal commission_pct;
     int manager_id;
     int department_id;
-
+    private int perfScore;
     String newValue;
     String oldValue;
     String updateField;
@@ -35,9 +36,10 @@ public class Employees {
         private Date hire_date;
         private String job_id;
         private BigDecimal salary;
-        private BigDecimal commission = BigDecimal.ZERO;
+        private BigDecimal commission_pct = BigDecimal.ZERO;
         private int manager_id = 0;
         private int department_id = 0;
+        private int perfScore;
         private String updateField;
         private String newValue;
         private String oldValue;
@@ -82,8 +84,8 @@ public class Employees {
             return this;
         }
 
-        public EmployeesBuilder commission(BigDecimal commission) {
-            this.commission = commission;
+        public EmployeesBuilder commission_pct(BigDecimal commission_pct) {
+            this.commission_pct = commission_pct;
             return this;
         }
 
@@ -94,6 +96,10 @@ public class Employees {
 
         public EmployeesBuilder department_id(int department_id) {
             this.department_id = department_id;
+            return this;
+        }
+        public EmployeesBuilder perfScore(int perfScore) {
+            this.perfScore = perfScore;
             return this;
         }
 
@@ -114,25 +120,25 @@ public class Employees {
 
         public Employees build() {
             Employees employee = new Employees();
-            employee.setEmployee_id(this.employee_id);
-            employee.setFirst_name(this.first_name);
-            employee.setLast_name(this.last_name);
-            employee.setEmail(this.email);
-            employee.setPhone_number(this.phone_number);
-            employee.setHire_date(this.hire_date);
-            employee.setJob_id(this.job_id);
-            employee.setSalary(this.salary);
-            employee.setCommission(this.commission);
-            employee.setManager_id(this.manager_id);
-            employee.setDepartment_id(this.department_id);
-            employee.setUpdateField(this.updateField);
-            employee.setNewValue(this.newValue);
-            employee.setOldValue(this.oldValue);
+            employee.employee_id = this.employee_id;
+            employee.first_name = this.first_name;
+            employee.last_name = this.last_name;
+            employee.email = this.email;
+            employee.phone_number = this.phone_number;
+            employee.hire_date = this.hire_date;
+            employee.job_id = this.job_id;
+            employee.salary = this.salary;
+            employee.commission_pct = this.commission_pct;
+            employee.manager_id = this.manager_id;
+            employee.department_id = this.department_id;
+            employee.perfScore = this.perfScore;
+            employee.updateField = this.updateField;
+            employee.newValue = this.newValue;
+            employee.oldValue = this.oldValue;
             return employee;
         }
     }
 
-    //임의설정
     @Override
     public String toString() {
         return "Employees{" +
@@ -144,9 +150,10 @@ public class Employees {
                 ", hire_date=" + hire_date +
                 ", job_id='" + job_id + '\'' +
                 ", salary=" + salary +
-                ", commission=" + commission +
+                ", commission_pct=" + commission_pct +
                 ", manager_id=" + manager_id +
                 ", department_id=" + department_id +
+                ", perfScore=" + perfScore +
                 ", newValue='" + newValue + '\'' +
                 ", oldValue='" + oldValue + '\'' +
                 ", updateField='" + updateField + '\'' +

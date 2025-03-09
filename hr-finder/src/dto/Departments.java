@@ -1,10 +1,13 @@
 package dto;
 
+import lombok.Data;
+
+@Data
 public class Departments {
-    int department_id;
-    String department_name;
-    int manager_id;
-    int location_id;
+    private int department_id;
+    private String department_name;
+    private Integer manager_id;
+    private Integer location_id;
 
     public static DepartmentsBuilder builder() {
         return new DepartmentsBuilder();
@@ -13,8 +16,8 @@ public class Departments {
     public static class DepartmentsBuilder {
         private int department_id;
         private String department_name;
-        private int manager_id = 0;
-        private int location_id = 0;
+        private Integer manager_id = null;
+        private Integer location_id = null;
 
         public DepartmentsBuilder department_id(int department_id) {
             this.department_id = department_id;
@@ -26,12 +29,12 @@ public class Departments {
             return this;
         }
 
-        public DepartmentsBuilder manager_id(int manager_id) {
+        public DepartmentsBuilder manager_id(Integer manager_id) {
             this.manager_id = manager_id;
             return this;
         }
 
-        public DepartmentsBuilder location_id(int location_id) {
+        public DepartmentsBuilder location_id(Integer location_id) {
             this.location_id = location_id;
             return this;
         }

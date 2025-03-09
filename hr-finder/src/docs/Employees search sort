@@ -40,7 +40,3 @@
 5. ***public List*<*Employees*> sortSubmenu(*List*<*Employees*> *sortList* , *Comparator*<*Employees*> *comparator*)**
   - 오름차순
   - 내림차순
-
-### Employees
-
-1. toSting : test를 위해 임의로 Overide

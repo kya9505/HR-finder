@@ -3,109 +3,254 @@ package cli.controller;
 import cli.io.SalaryIO;
 import service.SalaryService;
 import service.SalaryServiceImpl;
-import java.util.Scanner;
 
-public class SalaryController {
-
+public class SalaryController extends BaseController {
     private SalaryService salaryService = new SalaryServiceImpl();
     private SalaryIO salaryIO = new SalaryIO();
 
-    public static void main(String[] args) {
-        SalaryController controller = new SalaryController();
-        controller.run();
-    }
-
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-        boolean exitProgram = false;
-
-        while (!exitProgram) {
-            System.out.println("========== 급여 메뉴 ==========");
-            System.out.println("1. 세후 연봉 계산");
-            System.out.println("2. 연봉 계산");
-            System.out.println("3. 직원 급여 확인");
-            System.out.println("4. 직무별 평균 연봉 계산");
-            System.out.println("5. 부서별 평균 연봉 계산");
-            System.out.println("6. 연봉 인상 시뮬레이션");
-            System.out.println("7. 성과 등급에 따른 연봉 인상 계산");
-            System.out.println("8. 예산 초과 여부 확인");
-            System.out.println("9. 퇴직금 계산");
-            System.out.println("10. 연봉 인상 적용");
-            System.out.println("11. 보너스 계산");
-            System.out.println("12. 오버타임 급여 계산");
-            System.out.println("13. 전체 직원 일괄 연봉 인상 적용");
-            System.out.println("14. 직원 급여 직접 수정");
-            System.out.println("15. 종료");
-            System.out.print("옵션을 선택하세요: ");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
+    // 관리자용 급여 메뉴: 전체 CRUD 기능 제공
+    public void runAdmin() {
+        boolean exit = false;
+        while (!exit) {
+            printMenu("Salary Main Menu (Admin)",
+                    "Salary Calculation",
+                    "Salary Modification",
+                    "Salary Information",
+                    "Back to Main Menu");
+            int choice = readChoice("Select an option: ");
             switch (choice) {
                 case 1:
-                    calculateSalaryAfterTax();
+                    salaryCalculationMenuAdmin();
                     break;
                 case 2:
-                    calculateAnnualSalary();
+                    salaryModificationMenuAdmin();
                     break;
                 case 3:
-                    checkEmployeeSalaryDetails();
+                    salaryInformationMenuAdmin();
                     break;
                 case 4:
-                    calculateAvgSalaryByJobId();
-                    break;
-                case 5:
-                    calculateAvgSalaryByDeptId();
-                    break;
-                case 6:
-                    simulateAnnualRaise();
-                    break;
-                case 7:
-                    calculateIncreasedSalary();
-                    break;
-                case 8:
-                    checkBudgetExceeded();
-                    break;
-                case 9:
-                    calculateRetirementPay();
-                    break;
-                case 10:
-                    applySalaryIncrease();
-                    break;
-                case 11:
-                    calculateBonus();
-                    break;
-                case 12:
-                    calculateOvertimePay();
-                    break;
-                case 13:
-                    applyBatchSalaryIncrease();
-                    break;
-                case 14:
-                    updateEmployeeSalary();
-                    break;
-                case 15:
-                    exitProgram = true;
-                    System.out.println("급여 메뉴를 종료합니다.");
+                    exit = true;
+                    System.out.println("Returning to Main Menu...");
                     break;
                 default:
-                    System.out.println("잘못된 옵션입니다. 다시 시도하세요.");
+                    System.out.println("Invalid option. Please try again.");
             }
             System.out.println();
         }
-        scanner.close();
+    }
+
+    // 일반 사용자용 급여 메뉴: 단순히 자기 급여 및 퇴직금 정보만 조회
+    public void runUser() {
+        boolean exit = false;
+        while (!exit) {
+            printMenu("Salary Main Menu (User)",
+                    "Check My Salary",
+                    "Check My Retirement Pay",
+                    "Back to Main Menu");
+            int choice = readChoice("Select an option: ");
+            switch (choice) {
+                case 1:
+                    userSalaryCalculationMenu();
+                    break;
+                case 2:
+                    userRetirementPayMenu();
+                    break;
+                case 3:
+                    exit = true;
+                    System.out.println("Returning to Main Menu...");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+            System.out.println();
+        }
+    }
+
+    // 관리자용: 급여 계산 메뉴
+    private void salaryCalculationMenuAdmin() {
+        boolean back = false;
+        while (!back) {
+            printMenu("Salary Calculation Menu",
+                    "Calculate Annual Salary",
+                    "Calculate Salary After Tax",
+                    "Simulate Annual Salary Raise",
+                    "Calculate Bonus",
+                    "Calculate Overtime Pay",
+                    "Calculate Retirement Pay",
+                    "Back");
+            int choice = readChoice("Select an option: ");
+            switch (choice) {
+                case 1:
+                    calculateAnnualSalary();
+                    break;
+                case 2:
+                    calculateSalaryAfterTax();
+                    break;
+                case 3:
+                    simulateAnnualRaise();
+                    break;
+                case 4:
+                    calculateBonus();
+                    break;
+                case 5:
+                    calculateOvertimePay();
+                    break;
+                case 6:
+                    calculateRetirementPay();
+                    break;
+                case 7:
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+            System.out.println();
+        }
+    }
+
+    // 관리자용: 급여 수정 메뉴
+    private void salaryModificationMenuAdmin() {
+        boolean back = false;
+        while (!back) {
+            printMenu("Salary Modification Menu",
+                    "Apply Salary Increase",
+                    "Apply Batch Salary Increase",
+                    "Update Employee Salary",
+                    "Back");
+            int choice = readChoice("Select an option: ");
+            switch (choice) {
+                case 1:
+                    applySalaryIncrease();
+                    break;
+                case 2:
+                    applyBatchSalaryIncrease();
+                    break;
+                case 3:
+                    updateEmployeeSalary();
+                    break;
+                case 4:
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+            System.out.println();
+        }
+    }
+
+    // 관리자용: 급여 정보 조회 메뉴
+    private void salaryInformationMenuAdmin() {
+        boolean back = false;
+        while (!back) {
+            printMenu("Salary Information Menu",
+                    "Check Employee Salary Details",
+                    "Calculate Average Salary by Job Title",
+                    "Calculate Average Salary by Department",
+                    "Calculate Increased Salary by Performance Grade",
+                    "Check if Budget is Exceeded",
+                    "Back");
+            int choice = readChoice("Select an option: ");
+            switch (choice) {
+                case 1:
+                    checkEmployeeSalaryDetails();
+                    break;
+                case 2:
+                    calculateAvgSalaryByJobId();
+                    break;
+                case 3:
+                    calculateAvgSalaryByDeptId();
+                    break;
+                case 4:
+                    calculateIncreasedSalary();
+                    break;
+                case 5:
+                    checkBudgetExceeded();
+                    break;
+                case 6:
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+            System.out.println();
+        }
+    }
+
+    // 일반 사용자용: 자신의 급여(세전/세후) 조회
+    private void userSalaryCalculationMenu() {
+        int empId = salaryIO.readEmployeeId();
+        double annualSalary = salaryService.getAnnualSalary(empId);
+        double afterTax = salaryService.getSalaryAfterTax(empId);
+        System.out.println("Your Annual Salary (Before Tax): " + annualSalary);
+        System.out.println("Your Annual Salary (After Tax): " + afterTax);
+    }
+
+    // 일반 사용자용: 자신의 퇴직금 조회
+    private void userRetirementPayMenu() {
+        int empId = salaryIO.readEmployeeId();
+        double retirementPay = salaryService.calculateRetirementPay(empId);
+        System.out.println("Your Retirement Pay: " + retirementPay);
+    }
+
+    // 관리자 및 공통 기능
+
+    private void calculateAnnualSalary() {
+        int empId = salaryIO.readEmployeeId();
+        double annualSalary = salaryService.getAnnualSalary(empId);
+        System.out.println("Employee " + empId + "'s annual salary: " + annualSalary);
     }
 
     private void calculateSalaryAfterTax() {
         int empId = salaryIO.readEmployeeId();
         double afterTax = salaryService.getSalaryAfterTax(empId);
-        System.out.println("직원 " + empId + "의 세후 연봉: " + afterTax);
+        System.out.println("Employee " + empId + "'s salary after tax: " + afterTax);
     }
 
-    private void calculateAnnualSalary() {
+    private void simulateAnnualRaise() {
         int empId = salaryIO.readEmployeeId();
-        double annualSalary = salaryService.getAnnualSalary(empId);
-        System.out.println("직원 " + empId + "의 연봉: " + annualSalary);
+        double percentage = salaryIO.readPercentage();
+        double simulatedSalary = salaryService.simulateAnnSalaryRaise(empId, percentage);
+        System.out.println("Simulated annual salary after " + percentage + "% raise for employee " + empId + ": " + simulatedSalary);
+    }
+
+    private void calculateBonus() {
+        int empId = salaryIO.readEmployeeId();
+        double performanceFactor = salaryIO.readPercentage();
+        double bonus = salaryService.calculateBonus(empId, performanceFactor);
+        System.out.println("Bonus for employee " + empId + ": " + bonus);
+    }
+
+    private void calculateOvertimePay() {
+        int empId = salaryIO.readEmployeeId();
+        double overtimeHours = salaryIO.readOvertimeHours();
+        double overtimePay = salaryService.calculateOvertimePay(empId, overtimeHours);
+        System.out.println("Overtime pay for employee " + empId + ": " + overtimePay);
+    }
+
+    private void calculateRetirementPay() {
+        int empId = salaryIO.readEmployeeId();
+        double retirementPay = salaryService.calculateRetirementPay(empId);
+        System.out.println("Retirement pay for employee " + empId + ": " + retirementPay);
+    }
+
+    private void calculateAvgSalaryByJobId() {
+        int jobIdInt = salaryIO.readJobId();
+        String jobId = String.valueOf(jobIdInt);
+        double avgSalary = salaryService.getAvgAnnSalJobId(jobId);
+        System.out.println("Average annual salary for job " + jobId + ": " + avgSalary);
+    }
+
+    private void calculateAvgSalaryByDeptId() {
+        int deptId = salaryIO.readDepartmentId();
+        double avgSalary = salaryService.getAverageSalaryDpt(deptId);
+        System.out.println("Average annual salary for department " + deptId + ": " + avgSalary);
+    }
+
+    private void calculateIncreasedSalary() {
+        int empId = salaryIO.readEmployeeId();
+        char grade = salaryIO.readPerformanceGrade();
+        double increasedSalary = salaryService.getIncreasedAnnualSalary(empId, grade);
+        System.out.println("Employee " + empId + "'s increased annual salary (grade " + grade + "): " + increasedSalary);
     }
 
     private void checkEmployeeSalaryDetails() {
@@ -113,95 +258,42 @@ public class SalaryController {
         double annualSalary = salaryService.getAnnualSalary(empId);
         double monthlySalary = annualSalary / 12;
         double afterTax = salaryService.getSalaryAfterTax(empId);
-
-        System.out.println("직원 " + empId + " 급여 상세 내역");
-        System.out.println("월급(세전): " + monthlySalary);
-        System.out.println("연봉(세전): " + annualSalary);
-        System.out.println("연봉(세후): " + afterTax);
-    }
-
-    private void calculateAvgSalaryByJobId() {
-        int jobIdInt = salaryIO.readJobId();
-        String jobId = String.valueOf(jobIdInt);
-        double avgSalary = salaryService.getAvgAnnSalJobId(jobId);
-        System.out.println("직무 " + jobId + "의 평균 연봉: " + avgSalary);
-    }
-
-    private void calculateAvgSalaryByDeptId() {
-        int deptId = salaryIO.readDepartmentId();
-        double avgSalary = salaryService.getAverageSalaryDpt(deptId);
-        System.out.println("부서 " + deptId + "의 평균 연봉: " + avgSalary);
-    }
-
-    private void simulateAnnualRaise() {
-        int empId = salaryIO.readEmployeeId();
-        double percentage = salaryIO.readPercentage();
-        double simulatedSalary = salaryService.simulateAnnSalaryRaise(empId, percentage);
-        System.out.println("직원 " + empId + "의 연봉 인상 시뮬레이션 (" + percentage + "% 인상): " + simulatedSalary);
-    }
-
-    private void calculateIncreasedSalary() {
-        int empId = salaryIO.readEmployeeId();
-        char grade = salaryIO.readPerformanceGrade();
-        double increasedSalary = salaryService.getIncreasedAnnualSalary(empId, grade);
-        System.out.println("직원 " + empId + "의 성과 등급 " + grade + "에 따른 인상 연봉: " + increasedSalary);
+        System.out.println("Employee " + empId + " Salary Details:");
+        System.out.println("Monthly (Before Tax): " + monthlySalary);
+        System.out.println("Annual (Before Tax): " + annualSalary);
+        System.out.println("Annual (After Tax): " + afterTax);
     }
 
     private void checkBudgetExceeded() {
         double budget = salaryIO.readBudget();
         boolean exceeded = salaryService.isBudgetExceeded(budget);
         if (exceeded) {
-            System.out.println("회사의 총 연봉이 예산을 초과합니다.");
+            System.out.println("Total annual salary exceeds the budget.");
         } else {
-            System.out.println("회사의 총 연봉이 예산 이내입니다.");
+            System.out.println("Total annual salary is within the budget.");
         }
     }
 
-    private void calculateRetirementPay() {
-        int empId = salaryIO.readEmployeeId();
-        double retirementPay = salaryService.calculateRetirementPay(empId);
-        System.out.println("직원 " + empId + "의 퇴직금: " + retirementPay);
-    }
-
+    // 관리자 전용 수정 기능
     private void applySalaryIncrease() {
         int empId = salaryIO.readEmployeeId();
         double rate = salaryIO.readPercentage();
         boolean result = salaryService.applySalaryIncrease(empId, rate);
-        if (result) {
-            System.out.println("직원 " + empId + "의 급여가 인상되었습니다.");
-        } else {
-            System.out.println("급여 인상 적용에 실패하였습니다.");
-        }
-    }
-
-    private void calculateBonus() {
-        int empId = salaryIO.readEmployeeId();
-        double performanceFactor = salaryIO.readPercentage();
-        double bonus = salaryService.calculateBonus(empId, performanceFactor);
-        System.out.println("직원 " + empId + "의 보너스: " + bonus);
-    }
-
-    private void calculateOvertimePay() {
-        int empId = salaryIO.readEmployeeId();
-        double overtimeHours = salaryIO.readOvertimeHours();
-        double overtimePay = salaryService.calculateOvertimePay(empId, overtimeHours);
-        System.out.println("직원 " + empId + "의 오버타임 급여: " + overtimePay);
+        System.out.println(result ? "Salary increase applied for employee " + empId
+                : "Failed to apply salary increase for employee " + empId);
     }
 
     private void applyBatchSalaryIncrease() {
         double percentage = salaryIO.readPercentage();
         int updatedCount = salaryService.applyBatchSalaryIncrease(percentage);
-        System.out.println("전체 직원 중 " + updatedCount + "명의 급여가 인상되었습니다.");
+        System.out.println(updatedCount + " employees had their salary increased.");
     }
 
     private void updateEmployeeSalary() {
         int empId = salaryIO.readEmployeeId();
         double newSalary = salaryIO.readSalary();
         boolean result = salaryService.updateEmployeeSalary(empId, newSalary);
-        if (result) {
-            System.out.println("직원 " + empId + "의 급여가 " + newSalary + "으로 수정되었습니다.");
-        } else {
-            System.out.println("급여 수정에 실패하였습니다.");
-        }
+        System.out.println(result ? "Employee " + empId + "'s salary updated to " + newSalary
+                : "Failed to update salary for employee " + empId);
     }
 }

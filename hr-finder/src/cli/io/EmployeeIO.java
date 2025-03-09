@@ -1,22 +1,14 @@
 package cli.io;
 
 import dto.Employees;
-import util.validation.ConsoleInputValidator;
-
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Scanner;
 
-public class EmployeeIO {
-    ConsoleInputValidator validator = new ConsoleInputValidator();
-    // EmployeeIO에서 Scanner도 사용할 수 있음 (validator 내부 Scanner와 별개)
-    private Scanner scanner = new Scanner(System.in);
+public class EmployeeIO extends BaseIO {
 
     public int readEmployeeId() {
-        return validator.readValidatedInt("employee_id(int) : ", 0, 999, "Please Check Employee ID");
+        return validator.readValidatedIntNoMax("employee_id(int) : ", 0, "Please Check Employee ID");
     }
 
     public String readString() {
@@ -35,6 +27,10 @@ public class EmployeeIO {
         return validator.readValidatedVarchar("last_name(max: 25) : ", 25, "Please Check Last Name");
     }
 
+    public String readPhone_number() {
+        return validator.readValidatedVarchar("phone_number(max: 20) : ", 20, "Please Check Phone Number");
+    }
+
     public String readEmail() {
         return validator.readValidatedVarchar("email(max: 25) : ", 25, "Please Check Email");
     }
@@ -43,10 +39,8 @@ public class EmployeeIO {
         System.out.print("enter date (yyyy-MM-dd): ");
         String dateString = scanner.nextLine();
         try {
-            // 간단하게 java.sql.Date.valueOf() 사용 (입력 형식이 정확해야 함)
             return Date.valueOf(dateString);
         } catch (IllegalArgumentException e) {
-            // 형식이 틀리면 재입력하도록 예외 처리 (혹은 RuntimeException 발생)
             System.out.println("Invalid date format. Please use yyyy-MM-dd.");
             return readHireDate();
         }
@@ -65,48 +59,33 @@ public class EmployeeIO {
     }
 
     public int readManagerId() {
-        return validator.readValidatedInt("manager_id(int) : ", 0, 10, "Please Check Manager ID");
+        return validator.readValidatedIntNoMax("manager_id(int) : ", 0, "Please Check Manager ID");
     }
 
     public int readDepartmentId() {
-        return validator.readValidatedInt("department_id(int) : ", 0, 10, "Please Check Department ID");
+        return validator.readValidatedIntNoMax("department_id(int) : ", 0, "Please Check Department ID");
     }
 
     public Date readStartDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-
-        return validator.<Date>readValidated(
-                "Enter start date (yyyy-MM-dd): ",
-                input -> {
-                    try {
-                        return (Date) dateFormat.parse(input);
-                    } catch (ParseException e) {
-                        throw new IllegalArgumentException("Invalid date format.");
-                    }
-                },
-                date -> true, // 유효성 검사 추가
-                "Invalid date format. Please enter in yyyy-MM-dd format."
-        );
+        System.out.print("enter start date (yyyy-MM-dd): ");
+        String dateString = scanner.nextLine();
+        try {
+            return Date.valueOf(dateString);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+            return readStartDate();
+        }
     }
 
-
     public Date readEndDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-
-        return validator.<Date>readValidated(
-                "Enter end date (yyyy-MM-dd): ",
-                input -> {
-                    try {
-                        return (Date) dateFormat.parse(input);
-                    } catch (ParseException e) {
-                        throw new IllegalArgumentException("Invalid date format.");
-                    }
-                },
-                date -> true, // 유효성 검사 추가
-                "Invalid date format. Please enter in yyyy-MM-dd format."
-        );
+        System.out.print("enter end date (yyyy-MM-dd): ");
+        String dateString = scanner.nextLine();
+        try {
+            return Date.valueOf(dateString);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+            return readEndDate();
+        }
     }
 
     public void printSearchSubmenu2(List<Employees> searchList) {
@@ -120,9 +99,10 @@ public class EmployeeIO {
         }
     }
 
-
     public void printSearchSubmenu1(int count) {
-        if(count == 0) System.out.println("No matching employees found.");
+        if (count == 0) {
+            System.out.println("No matching employees found.");
+        }
         System.out.println("Total Employees Found: " + count);
     }
 
@@ -138,12 +118,12 @@ public class EmployeeIO {
                 "Enter sub menu choice (1 or 2): ",
                 input -> {
                     try {
-                        return Integer.parseInt(input); // 입력을 정수로 변환
+                        return Integer.parseInt(input);
                     } catch (NumberFormatException e) {
                         throw new IllegalArgumentException("Invalid input. Please enter 1 or 2.");
                     }
                 },
-                choice -> choice == 1 || choice == 2, // 1 또는 2만 허용
+                choice -> choice == 1 || choice == 2,
                 "Invalid choice. Please enter 1 or 2."
         );
     }
