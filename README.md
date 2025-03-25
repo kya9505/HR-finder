@@ -1,6 +1,7 @@
 <div align="center">
-    <img src="https://capsule-render.vercel.app/api?type=wave&color=e1e6fe&height=180&text=Employee%20System&animation=&fontColor=4e4b4b&fontSize=70" />
+    <img src="https://capsule-render.vercel.app/api?type=wave&color=D1E7FF&height=180&text=Employee%20System&animation=&fontColor=3B3B3B&fontSize=70" />
 </div>
+
 
 <div align="center">
     <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 🎯 프로젝트 소개 </h2>  
