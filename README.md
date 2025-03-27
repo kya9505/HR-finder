@@ -39,7 +39,6 @@
 </div>
 
 ```plaintext
-/Prokin-Donuts
 │── .github
 │── .idea
 │── out
