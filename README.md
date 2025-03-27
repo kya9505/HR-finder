@@ -1,5 +1,6 @@
 <div align="center">
-    <img src="https://capsule-render.vercel.app/api?type=wave&color=D1E7FF&height=180&text=Employee%20System&animation=&fontColor=3B3B3B&fontSize=70" />
+    <img src="https://capsule-render.vercel.app/api?type=wave&color=D1E7FF&height=180&text=Employee%20System&animation=&fontColor=3B3B3B&fontSize=70"
+        style="width: 100%; height: auto; display: block; margin: 0;" />
 </div>
 
 
