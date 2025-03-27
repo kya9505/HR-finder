@@ -133,7 +133,7 @@ Select an option: _<br>
 </div> <br>
 
 
-<div align="center">
+<div align="left">>
     <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 🧑‍💻 Contact me </h2>
     <p>문의 사항이 있으시면 언제든지 연락 주세요!</p>
 </div>
